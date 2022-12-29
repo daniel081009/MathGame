@@ -21,7 +21,7 @@ class UI {
   AddGamePage() {
     this.body.innerHTML = `
     <div id= "plus">A + B</div>
-    <input id="input" type="text" />
+    <input id="number" type="text" />
     `;
     document.getElementById("plus").innerText = this.Add.Make();
     document.getElementById("input").onkeypress = (e) => {
