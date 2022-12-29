@@ -3,7 +3,10 @@ class UI {
     this.body = body;
     this.timer = null;
     this.Add = new Add();
-    this.AddMainPage();
+
+    window.onload = () => {
+      this.AddMainPage();
+    };
   }
   AddMainPage() {
     this.body.innerHTML = `
@@ -21,7 +24,7 @@ class UI {
   AddGamePage() {
     this.body.innerHTML = `
     <div id= "plus">A + B</div>
-    <input id="number" type="text" />
+    <input id="input" type="number" />
     `;
     document.getElementById("plus").innerText = this.Add.Make();
     document.getElementById("input").onkeypress = (e) => {
