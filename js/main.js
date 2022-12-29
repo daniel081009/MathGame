@@ -70,8 +70,8 @@ class Add {
     }
   }
   Make() {
-    a = this.RandomInt(0, this.level);
-    b = this.RandomInt(0, this.level);
+    let a = this.RandomInt(0, this.level);
+    let b = this.RandomInt(0, this.level);
     this.Ok = a + b;
     return a + " + " + b + " = ?";
   }
