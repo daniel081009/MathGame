@@ -1,4 +1,4 @@
-const staticAssets = ["/", "/js/main.js"];
+const staticAssets = ["/", "./js/main.js"];
 self.addEventListener("install", async (event) => {
   const cache = await caches.open("static-cache");
   cache.addAll(staticAssets);
