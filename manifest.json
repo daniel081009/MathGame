@@ -2,6 +2,7 @@
     "theme_color": "#382d22",
     "background_color": "#232323",
     "display": "fullscreen",
+    "id":"/",
     "scope": "/",
     "start_url": "/",
     "name": "MathGame",
