@@ -68,7 +68,7 @@ class UI {
   }
   EndPage() {
     this.body.innerHTML = `
-      <h1>ADD Game End</h1>
+      <h1>End!</h1>
       <div class="end"></div>
       <div id="start">Start</div>
     `;
