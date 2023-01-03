@@ -1,32 +1,118 @@
-const sCacheName = "practice-pwa";
-const aFilesToCache = ["./", "./index.html", "./css/main.css", "./js/main.js"];
+const CACHE = "offline-page";
+!(function () {
+  "use strict";
+  try {
+    self["workbox:sw:5.1.2"] && _();
+  } catch (t) {}
+  const t = {
+    backgroundSync: "background-sync",
+    broadcastUpdate: "broadcast-update",
+    cacheableResponse: "cacheable-response",
+    core: "core",
+    expiration: "expiration",
+    googleAnalytics: "offline-ga",
+    navigationPreload: "navigation-preload",
+    precaching: "precaching",
+    rangeRequests: "range-requests",
+    routing: "routing",
+    strategies: "strategies",
+    streams: "streams",
+  };
+  self.workbox = new (class {
+    constructor() {
+      return (
+        (this.v = {}),
+        (this.t = {
+          debug: "localhost" === self.location.hostname,
+          modulePathPrefix: null,
+          modulePathCb: null,
+        }),
+        (this.s = this.t.debug ? "dev" : "prod"),
+        (this.o = !1),
+        new Proxy(this, {
+          get(e, s) {
+            if (e[s]) return e[s];
+            const o = t[s];
+            return o && e.loadModule(`workbox-${o}`), e[s];
+          },
+        })
+      );
+    }
+    setConfig(t = {}) {
+      if (this.o)
+        throw new Error(
+          "Config must be set before accessing workbox.* modules"
+        );
+      Object.assign(this.t, t), (this.s = this.t.debug ? "dev" : "prod");
+    }
+    loadModule(t) {
+      const e = this.i(t);
+      try {
+        importScripts(e), (this.o = !0);
+      } catch (s) {
+        throw (console.error(`Unable to import module '${t}' from '${e}'.`), s);
+      }
+    }
+    i(t) {
+      if (this.t.modulePathCb) return this.t.modulePathCb(t, this.t.debug);
+      let e = ["https://storage.googleapis.com/workbox-cdn/releases/5.1.2"];
+      const s = `${t}.${this.s}.js`,
+        o = this.t.modulePathPrefix;
+      return (
+        o &&
+          ((e = o.split("/")),
+          "" === e[e.length - 1] && e.splice(e.length - 1, 1)),
+        e.push(s),
+        e.join("/")
+      );
+    }
+  })();
+})();
 
-self.addEventListener("install", (pEvent) => {
-  console.log("서비스워커 설치");
-  pEvent.waitUntil(
-    caches.open(sCacheName).then((pCache) => {
-      return pCache.addAll(aFilesToCache);
-    })
+const offlineFallbackPage = "./index.html";
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
+self.addEventListener("install", async (event) => {
+  event.waitUntil(
+    caches.open(CACHE).then((cache) => cache.add(offlineFallbackPage))
   );
 });
-// 고유번호 할당받은 서비스 워커 동작 시작
-self.addEventListener("activate", (pEvent) => {
-  console.log("서비스워커 동작!");
-});
 
-//데이터 요청시 네트워크 또는 캐시에서 찾아 반환
-self.addEventListener("fetch", (pEvent) => {
-  pEvent.respondWith(
-    caches
-      .match(pEvent.request)
-      .then((response) => {
-        if (!response) {
-          console.log("네트워크에서 데이터 요청!", pEvent.request);
-          return fetch(pEvent.request);
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
+
+workbox.routing.registerRoute(
+  new RegExp("/*"),
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: CACHE,
+  })
+);
+
+self.addEventListener("fetch", (event) => {
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      (async () => {
+        try {
+          const preloadResp = await event.preloadResponse;
+
+          if (preloadResp) {
+            return preloadResp;
+          }
+
+          const networkResp = await fetch(event.request);
+          return networkResp;
+        } catch (error) {
+          const cache = await caches.open(CACHE);
+          const cachedResp = await cache.match(offlineFallbackPage);
+          return cachedResp;
         }
-        console.log("캐시에서 데이터 요청!", pEvent.request);
-        return response;
-      })
-      .catch((err) => console.log(err))
-  );
+      })()
+    );
+  }
 });
