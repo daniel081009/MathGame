@@ -1,35 +1,21 @@
 importScripts(
-  "https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox-sw.js"
+  "https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js"
 );
-
 const {
-  cacheableResponse,
-  core,
-  expiration,
-  googleAnalytics,
-  routing,
-  strategies,
+  cacheableResponse: { CacheableResponsePlugin },
+  expiration: { ExpirationPlugin },
+  routing: { registerRoute },
+  strategies: { CacheFirst, StaleWhileRevalidate },
 } = workbox;
-const { CacheableResponsePlugin } = cacheableResponse;
-const { ExpirationPlugin } = expiration;
-const { registerRoute } = routing;
-const { CacheFirst, StaleWhileRevalidate } = strategies;
-
-core.clientsClaim();
-core.skipWaiting();
-
-// Cache JavaScript and CSS
-registerRoute(/\.(?:js|css)$/, new StaleWhileRevalidate());
-
-// Cache Images
-registerRoute(
-  /\.(?:png|gif|jpg|jpeg|svg)$/,
-  new CacheFirst({
-    cacheName: "images",
+workbox.routing.registerRoute(
+  "./",
+  workbox.strategies.networkFirst({
+    networkTimeoutSeconds: 3,
+    cacheName: "stories",
     plugins: [
-      new ExpirationPlugin({
-        maxEntries: 10,
-        maxAgeSeconds: 60, // 7 Days
+      new workbox.expiration.Plugin({
+        maxEntries: 50,
+        maxAgeSeconds: 1 * 60, // 1 minutes
       }),
     ],
   })
