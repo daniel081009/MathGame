@@ -10,5 +10,26 @@
   </body>
   <link rel="stylesheet" href="./css/main.css" />
   <script src="./js/main.js"></script>
-  <script src="./index.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/workbox-sw/6.5.4/workbox-sw.js"
+    integrity="sha512-67SvZhe5uoMrETb1EY+36lHSWb1tm00s2hGltpC8vN8OfepOJ3FXdhr5H6pW+SJLgo42pP329a68HwpbahPU5w=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  ></script>
+  <script>
+    document.cookie = "crossCookie=bar; SameSite=None; Secure";
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        const prefix = location.pathname.replace(/\/(index\.html)?$/, "");
+        navigator.serviceWorker.register(`${prefix}/sw.js`).then(
+          function (registration) {
+            console.log("[success]");
+          },
+          function (err) {
+            console.log("[fail]: ", err);
+          }
+        );
+      });
+    }
+  </script>
 </html>
