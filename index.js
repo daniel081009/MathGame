@@ -1,6 +1,8 @@
-importScripts(
-  "https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js"
-);
+if ("undefined" === typeof window) {
+  importScripts(
+    "https://storage.googleapis.com/workbox-cdn/releases/6.4.1/workbox-sw.js"
+  );
+}
 const {
   cacheableResponse: { CacheableResponsePlugin },
   expiration: { ExpirationPlugin },
