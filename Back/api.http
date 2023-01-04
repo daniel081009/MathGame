@@ -1,0 +1,27 @@
+POST http://localhost:8080/user/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin"
+}
+
+###
+
+POST http://localhost:8080/user/register
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "admin"
+}
+
+###
+GET http://localhost:8080/
+Content-Type: application/json
+Set-Cookie: Tokend=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6ImFkbWluIiwiZXhwIjoxNjczNDI0NTY4fQ.Fu7tJdviUT_jQH87rTtHB8atmP_anysInTSfCHJlres; Path=/; Domain=localhost; Max-Age=3600; HttpOnly
+
+{
+    "username": "admin",
+    "password": "admin"
+}
