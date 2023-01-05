@@ -14,6 +14,7 @@ import (
 const (
 	Dbpath     = "my.db"
 	MainBucket = "MainBucket"
+	RankBucket = "MainBucket"
 )
 
 func DB() bolt.DB {
@@ -44,7 +45,7 @@ func GetUsertoToken(Token string) (Struct.User, error) {
 		}
 		v := b.Get([]byte(token.UserName))
 		if v != nil {
-			userd, _ := Byte.BytetoStruct(v)
+			userd, _ := Byte.UserBytetoStruct(v)
 			user = userd
 		} else {
 			return errors.New("user not found")
@@ -62,7 +63,7 @@ func GetUsertoUserName(UserName string) (Struct.User, error) {
 		b := tx.Bucket([]byte(MainBucket))
 		v := b.Get([]byte(UserName))
 		if v != nil {
-			userd, _ := Byte.BytetoStruct(v)
+			userd, _ := Byte.UserBytetoStruct(v)
 			user = userd
 		} else {
 			return errors.New("user not found")

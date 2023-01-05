@@ -23,20 +23,21 @@ func Route(User_api *gin.RouterGroup) {
 		d, e := DB.GetUsertoUserName(req.UserName)
 		if d.Password != req.Password {
 			c.AbortWithStatusJSON(401, gin.H{
-				"message": "error",
+				"message": "Bad Request",
 			})
 		}
 
 		if e != nil {
 			c.AbortWithStatusJSON(401, gin.H{
-				"message": "error",
+				"message": "Bad Request",
 			})
 			return
 		}
 		token, _ := Jwt.GetJwtToken(d.UserName)
 		c.SetCookie("Token", token, 36000, "/", "localhost", false, true)
 		c.JSON(200, gin.H{
-			"message": "OK!",
+			"message": "OK",
+			"data":    d.Game,
 		})
 	})
 	User_api.POST("register", func(c *gin.Context) {
@@ -63,7 +64,7 @@ func Route(User_api *gin.RouterGroup) {
 				Password: req.Password,
 				Game:     map[int]Struct.Game{},
 			}
-			b.Put([]byte(req.UserName), Byte.StructtoByte(User_data))
+			b.Put([]byte(req.UserName), Byte.UserStructtoByte(User_data))
 			return nil
 		})
 		if e != nil {
