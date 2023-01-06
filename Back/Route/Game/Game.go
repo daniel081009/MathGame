@@ -3,7 +3,6 @@ package Game
 import (
 	"MathGame/Byte"
 	"MathGame/DB"
-	"MathGame/Route/Ranking"
 	"MathGame/Struct"
 	"MathGame/util"
 
@@ -103,8 +102,6 @@ func Route(Game_api *gin.RouterGroup) {
 			e := b.Put([]byte(D.UserName), Byte.UserStructtoByte(D))
 			return e
 		}), ctx)
-
-		go Ranking.CheckRank(D.UserName, data)
 
 		ctx.JSON(200, gin.H{
 			"message": "success",

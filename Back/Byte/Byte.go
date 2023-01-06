@@ -26,7 +26,7 @@ func UserBytetoStruct(Byte []byte) (Struct.User, error) {
 	return u, nil
 }
 
-func RankStructtoByte(u Struct.Rank) []byte {
+func RankStructtoByte(u []Struct.Rank) []byte {
 	buf := bytes.Buffer{}
 	enc := gob.NewEncoder(&buf)
 	err := enc.Encode(u)
@@ -35,12 +35,12 @@ func RankStructtoByte(u Struct.Rank) []byte {
 	}
 	return buf.Bytes()
 }
-func RankBytetoStruct(Byte []byte) (Struct.Rank, error) {
+func RankBytetoStruct(Byte []byte) ([]Struct.Rank, error) {
 	dec := gob.NewDecoder(bytes.NewReader(Byte))
-	u := Struct.Rank{}
+	u := []Struct.Rank{}
 	err := dec.Decode(&u)
 	if err != nil {
-		return Struct.Rank{}, err
+		return []Struct.Rank{}, err
 	}
 	return u, nil
 }

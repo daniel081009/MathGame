@@ -1,6 +1,7 @@
 package util
 
 import (
+	"math/rand"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -29,4 +30,8 @@ func StrToInt(s string) int {
 		return 0
 	}
 	return n
+}
+
+func RandInt(min int, max int) int {
+	return min + rand.Intn(max-min)
 }

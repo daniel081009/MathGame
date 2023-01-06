@@ -48,7 +48,7 @@ POST http://localhost:8080/game/end
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 4,
     "tlog":[
         {
             "Problem":"1+1",
