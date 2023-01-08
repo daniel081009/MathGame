@@ -1,22 +1,59 @@
 package Game
 
 import (
-	"MathGame/Byte"
 	"MathGame/DB"
 	"MathGame/Struct"
 	"MathGame/util"
+	"fmt"
+	"time"
 
-	"github.com/boltdb/bolt"
 	"github.com/gin-gonic/gin"
 )
 
+func CreateGame(u *Struct.User, Type int, Level int, RunningTime int, Rank bool) (int, error) {
+	if u.Game == nil {
+		u.Game = map[int]Struct.Game{}
+	}
+	Pro, err := Struct.CreateProblem(Type, Level, 250)
+	if err != nil {
+		return 0, err
+	}
+
+	id := len(u.Game)
+	u.Game[id] = Struct.Game{
+		Setting: Struct.Setting{
+			Type:        Type,
+			Level:       Level,
+			RunningTime: RunningTime,
+		},
+		StartTime: time.Now(),
+		TLog:      []Struct.TLog{},
+		Problem:   Pro,
+		EndGame:   0,
+		RankGame:  Rank,
+	}
+	go func() {
+		RunningTime++
+		time.Sleep(time.Second * time.Duration(RunningTime))
+		if u.Game[id].EndGame != 0 {
+			return
+		}
+		if data, ok := u.Game[id]; ok {
+			data.EndGame = 2
+			data.EndTime = time.Now()
+			u.Game[id] = data
+			DB.DBUpdateUser(*u)
+		}
+	}()
+	return id, nil
+}
 func Route(Game_api *gin.RouterGroup) {
 	Game_api.GET("get/:id", func(ctx *gin.Context) {
 		Id := ctx.Param("id")
 
 		Token, _ := ctx.Cookie("Token")
-		D, _ := DB.GetUsertoToken(Token)
-		if util.StrToInt(Id) > len(D.Game) {
+		User_Data, _ := DB.GetUsertoToken(Token)
+		if util.StrToInt(Id) > len(User_Data.Game) {
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
 			})
@@ -24,15 +61,15 @@ func Route(Game_api *gin.RouterGroup) {
 		}
 		ctx.JSON(200, gin.H{
 			"message": "success",
-			"data":    D.Game[util.StrToInt(Id)],
+			"data":    User_Data.Game[util.StrToInt(Id)],
 		})
 	})
 	Game_api.GET("get", func(ctx *gin.Context) {
 		Token, _ := ctx.Cookie("Token")
-		D, _ := DB.GetUsertoToken(Token)
+		User_Data, _ := DB.GetUsertoToken(Token)
 		ctx.JSON(200, gin.H{
 			"message": "success",
-			"data":    D.Game,
+			"data":    User_Data.Game,
 		})
 	})
 	Game_api.POST("create", func(ctx *gin.Context) {
@@ -44,12 +81,7 @@ func Route(Game_api *gin.RouterGroup) {
 				"message": "bad request",
 			})
 			return
-		} else if g.Level < 0 || g.Level > 2 {
-			ctx.AbortWithStatusJSON(400, gin.H{
-				"message": "bad request",
-			})
-			return
-		} else if g.Type < 0 || g.Type > 3 {
+		} else if _, err := Struct.CreateProblem(g.Level, g.Type, 1); err != nil {
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
 			})
@@ -57,19 +89,20 @@ func Route(Game_api *gin.RouterGroup) {
 		}
 
 		Token, _ := ctx.Cookie("Token")
-		D, _ := DB.GetUsertoToken(Token)
-		ID, e := D.CreateGame(g.Type, g.Level, g.RunningTime)
-		util.BadReq(e, ctx)
+		User_Data, err := DB.GetUsertoToken(Token)
+		if util.BadReq(err, ctx) != nil {
+			return
+		}
 
-		db := DB.DB()
-		defer db.Close()
+		ID, e := CreateGame(&User_Data, g.Type, g.Level, g.RunningTime, false)
+		if util.BadReq(e, ctx) != nil {
+			return
+		}
 
-		e = db.Update(func(tx *bolt.Tx) error {
-			b := tx.Bucket([]byte(DB.MainBucket))
-			e := b.Put([]byte(D.UserName), Byte.UserStructtoByte(D))
-			return e
-		})
-		util.BadReq(e, ctx)
+		if util.BadReq(DB.DBUpdateUser(User_Data), ctx) != nil {
+			return
+		}
+
 		ctx.JSON(200, gin.H{
 			"message": "success",
 			"ID":      ID,
@@ -83,8 +116,13 @@ func Route(Game_api *gin.RouterGroup) {
 		util.Req(&g, ctx)
 
 		Token, _ := ctx.Cookie("Token")
-		D, _ := DB.GetUsertoToken(Token)
-		data, exists := D.Game[g.Id]
+		User_Data, err := DB.GetUsertoToken(Token)
+		if util.BadReq(err, ctx) != nil {
+			fmt.Println(err)
+			return
+		}
+
+		data, exists := User_Data.Game[g.Id]
 		if !exists || data.EndGame != 0 {
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
@@ -92,16 +130,10 @@ func Route(Game_api *gin.RouterGroup) {
 			return
 		}
 
-		data.End(D.UserName, g.Tlog)
-		D.Game[g.Id] = data
+		data.End(User_Data.UserName, g.Tlog)
+		User_Data.Game[g.Id] = data
 
-		db := DB.DB()
-		defer db.Close()
-		util.BadReq(db.Update(func(tx *bolt.Tx) error {
-			b := tx.Bucket([]byte(DB.MainBucket))
-			e := b.Put([]byte(D.UserName), Byte.UserStructtoByte(D))
-			return e
-		}), ctx)
+		util.BadReq(DB.DBUpdateUser(User_Data), ctx)
 
 		ctx.JSON(200, gin.H{
 			"message": "success",

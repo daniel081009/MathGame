@@ -10,42 +10,63 @@ class UI {
   }
 
   MainPage() {
-    function AllChclear() {
-      document.body.querySelector("#plus").classList = ["item"];
-      document.body.querySelector("#sub").classList = ["item"];
-      document.body.querySelector("#mult").classList = ["item"];
-      document.body.querySelector("#division").classList = ["item"];
-    }
-    this.body.innerHTML = `
-    <h1>Math Game</h1>
-    <div class="grid">
-      <div class="item ch" id="plus">+</div>
-      <div class="item" id="sub">-</div>
-      <div class="item" id="mult">✕</div>
-      <div class="item" id="division">÷</div>
-    </div>
-    <div id="start">Start</div>
+    this.body.innerHTML = `<div class="container">
+    <fieldset>
+      <div>
+        <input type="radio" name="ri" class="item" id="huey" value="0" />
+        <label for="huey">+</label>
+      </div>
+      <div>
+        <input type="radio" name="ri" class="item" id="huey" value="1" />
+        <label for="huey">-</label>
+      </div>
+      <div>
+        <input type="radio" name="ri" class="item" id="huey" value="2" />
+        <label for="huey">✕</label>
+      </div>
+      <div>
+        <input type="radio" name="ri" class="item" id="huey" value="3" />
+        <label for="huey">÷</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div>
+        <input type="radio" name="le" class="item" id="huey" value="0" />
+        <label for="huey">0~10</label>
+      </div>
+      <div>
+        <input type="radio" name="le" class="item" id="huey" value="1" />
+        <label for="huey">0~20</label>
+      </div>
+      <div>
+        <input type="radio" name="le" class="item" id="huey" value="2" />
+        <label for="huey">0~50</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <div>
+        <input type="radio" name="ti" class="item" id="huey" value="30" />
+        <label for="huey">30s</label>
+      </div>
+      <div>
+        <input type="radio" name="ti" class="item" id="huey" value="60" />
+        <label for="huey">1m</label>
+      </div>
+      <div>
+        <input type="radio" name="ti" class="item" id="huey" value="180" />
+        <label for="huey">3m</label>
+      </div>
+      <div>
+        <input type="radio" name="ti" class="item" id="huey" value="3000" />
+        <label for="huey">5m</label>
+      </div>
+    </fieldset>
+  </div>
+  <div id="start" class="start">Start</div>
     `;
-    document.body.querySelector("#plus").onclick = () => {
-      this.Chose = new Add();
-      AllChclear();
-      document.body.querySelector("#plus").classList.add("ch");
-    };
-    document.body.querySelector("#sub").onclick = () => {
-      this.Chose = new subtraction();
-      AllChclear();
-      document.body.querySelector("#sub").classList.add("ch");
-    };
-    document.body.querySelector("#mult").onclick = () => {
-      this.Chose = new multiplication();
-      AllChclear();
-      document.body.querySelector("#mult").classList.add("ch");
-    };
-    document.body.querySelector("#division").onclick = () => {
-      this.Chose = new division();
-      AllChclear();
-      document.body.querySelector("#division").classList.add("ch");
-    };
+
     this.startbutton();
   }
   GamePage() {

@@ -1,14 +1,12 @@
 package User
 
 import (
-	"MathGame/Byte"
 	"MathGame/DB"
 	"MathGame/Jwt"
 	"MathGame/Struct"
 	"MathGame/util"
-	"errors"
+	"fmt"
 
-	"github.com/boltdb/bolt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,6 +23,7 @@ func Route(User_api *gin.RouterGroup) {
 			c.AbortWithStatusJSON(401, gin.H{
 				"message": "Bad Request",
 			})
+			return
 		}
 
 		if e != nil {
@@ -45,29 +44,23 @@ func Route(User_api *gin.RouterGroup) {
 			UserName string `json:"username" binding:"required"`
 			Password string `json:"password" binding:"required"`
 		}{}
-		util.Req(&req, c)
+		if util.Req(&req, c) != nil {
+			return
+		}
+		fmt.Println(req)
 
-		db := DB.DB()
-		defer db.Close()
-
-		e := db.Update(func(tx *bolt.Tx) error {
-			b := tx.Bucket([]byte(DB.MainBucket))
-			v := b.Get([]byte(req.UserName))
-			if v != nil {
-				c.AbortWithStatusJSON(401, gin.H{
-					"message": "user exist",
-				})
-				return errors.New("user exist")
-			}
-			User_data := Struct.User{
-				UserName: req.UserName,
-				Password: req.Password,
-				Game:     map[int]Struct.Game{},
-			}
-			b.Put([]byte(req.UserName), Byte.UserStructtoByte(User_data))
-			return nil
+		if _, err := DB.GetUsertoUserName(req.UserName); err != nil {
+			c.AbortWithStatusJSON(401, gin.H{
+				"message": "user exist",
+			})
+			return
+		}
+		e := DB.DBUpdateUser(Struct.User{
+			UserName: req.UserName,
+			Password: req.Password,
+			Game:     make(map[int]Struct.Game),
 		})
-		if e != nil {
+		if util.BadReq(e, c) != nil {
 			return
 		}
 

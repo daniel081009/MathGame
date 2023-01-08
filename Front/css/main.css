@@ -60,36 +60,38 @@ h1 {
   grid-template: repeat(2, 1fr) / repeat(2, 1fr);
 }
 .item {
-  width: 8vh;
-  height: 8vh;
-  font-size: 5rem;
-  font-weight: 300;
+  width: 3vh;
+  height: 4vh;
+}
+
+.container {
+  padding-left: 3vh;
+  padding-right: 3vh;
+  border: 0.6vh solid rgb(61, 61, 61);
+  border-radius: 5vh;
+}
+fieldset {
+  width: 100%;
+  display: flex;
+  border: none;
+  font-size: 3rem;
+}
+.start {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-.item:hover {
-  transform: scale(1.1);
-  background-color: rgb(61, 61, 61);
-  color: aliceblue;
-}
-.ch {
-  background-color: rgb(61, 61, 61);
-  color: aliceblue;
-}
-#plus {
-  font-weight: 400;
-}
-#sub {
-  font-weight: 400;
-}
-#mult {
-  font-weight: 300;
-  font: 6rem;
-}
-#division {
+  width: 10vw;
+  padding-left: 8vw;
+  padding-right: 8vw;
+  border: 0.6vh solid rgb(61, 61, 61);
+  border-radius: 2vh;
+  font-family: "GmarketSansMedium";
   font-weight: 500;
-  font: 8rem;
+}
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }

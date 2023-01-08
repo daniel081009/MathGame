@@ -1,9 +1,9 @@
 package DB
 
 import (
-	"MathGame/Byte"
 	"MathGame/Jwt"
 	"MathGame/Struct"
+	"MathGame/util"
 	"errors"
 	"fmt"
 	"log"
@@ -14,7 +14,7 @@ import (
 const (
 	Dbpath     = "my.db"
 	MainBucket = "MainBucket"
-	RankBucket = "MainBucket"
+	RankBucket = "RankBucket"
 )
 
 func DB() bolt.DB {
@@ -25,6 +25,10 @@ func DB() bolt.DB {
 
 	db.Update(func(tx *bolt.Tx) error {
 		_, err := tx.CreateBucketIfNotExists([]byte(MainBucket))
+		if err != nil {
+			return fmt.Errorf("create bucker: %s", err)
+		}
+		_, err = tx.CreateBucketIfNotExists([]byte(RankBucket))
 		if err != nil {
 			return fmt.Errorf("create bucker: %s", err)
 		}
@@ -43,16 +47,26 @@ func GetUsertoToken(Token string) (Struct.User, error) {
 		if e != nil {
 			return errors.New("token error")
 		}
+
 		v := b.Get([]byte(token.UserName))
 		if v != nil {
-			userd, _ := Byte.UserBytetoStruct(v)
-			user = userd
+			util.BytetoStruct(v, &user)
 		} else {
 			return errors.New("user not found")
 		}
 		return nil
 	})
 	return user, nil
+}
+func DBUpdateUser(user Struct.User) error {
+	db := DB()
+	defer db.Close()
+	err := db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte(MainBucket))
+		e := b.Put([]byte(user.UserName), util.StructtoByte(user))
+		return e
+	})
+	return err
 }
 
 func GetUsertoUserName(UserName string) (Struct.User, error) {
@@ -63,8 +77,8 @@ func GetUsertoUserName(UserName string) (Struct.User, error) {
 		b := tx.Bucket([]byte(MainBucket))
 		v := b.Get([]byte(UserName))
 		if v != nil {
-			userd, _ := Byte.UserBytetoStruct(v)
-			user = userd
+			user = Struct.User{}
+			util.BytetoStruct(v, &user)
 		} else {
 			return errors.New("user not found")
 		}
