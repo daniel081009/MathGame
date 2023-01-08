@@ -51,7 +51,7 @@ class UI {
   GamePage() {
     this.body.innerHTML = `
     <div id= "plus">A + B</div>
-    <input id="input" type="number" />
+    <input id="input" type="number" autocomplete="off" autofocus/>
     `;
     document.getElementById("plus").innerText = this.Chose.Make();
     document.getElementById("input").onkeypress = (e) => {
@@ -199,7 +199,7 @@ class division {
       return this.Make();
     }
     this.Ok = a / b;
-    return a + " / " + b + " = ?";
+    return a + " ÷ " + b + " = ?";
   }
   RandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
