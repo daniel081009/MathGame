@@ -142,6 +142,9 @@ class subtraction {
   Make() {
     let a = this.RandomInt(0, this.level);
     let b = this.RandomInt(0, this.level);
+    if (a< b) {
+      return Make() 
+    }
     this.Ok = a - b;
     return a + " - " + b + " = ?";
   }
@@ -192,6 +195,9 @@ class division {
   Make() {
     let a = this.RandomInt(0, this.level);
     let b = this.RandomInt(0, this.level);
+    if (a % b != 0) {
+      return Make()
+    }
     this.Ok = a / b;
     return a + " / " + b + " = ?";
   }
