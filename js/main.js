@@ -195,11 +195,18 @@ class division {
   Make() {
     let a = this.RandomInt(0, this.level);
     let b = this.RandomInt(0, this.level);
-    if (a % b != 0) {
+    let c = a * b;
+
+    if (c == 0 && a == 0) {
       return this.Make();
     }
-    this.Ok = a / b;
-    return a + " ÷ " + b + " = ?";
+    if (c > this.level) {
+      return this.Make();
+    }
+
+    this.Ok = b;
+
+    return c + " ÷ " + a + " = ?";
   }
   RandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
