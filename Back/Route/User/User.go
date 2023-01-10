@@ -3,7 +3,7 @@ package User
 import (
 	"MathGame/DB"
 	"MathGame/Jwt"
-	"MathGame/Struct"
+	"MathGame/System"
 	"MathGame/util"
 	"fmt"
 
@@ -36,7 +36,6 @@ func Route(User_api *gin.RouterGroup) {
 		c.SetCookie("Token", token, 36000, "/", "localhost", false, true)
 		c.JSON(200, gin.H{
 			"message": "OK",
-			"data":    d.Game,
 		})
 	})
 	User_api.POST("register", func(c *gin.Context) {
@@ -55,10 +54,9 @@ func Route(User_api *gin.RouterGroup) {
 			})
 			return
 		}
-		e := DB.DBUpdateUser(Struct.User{
+		e := DB.DBUpdateUser(System.User{
 			UserName: req.UserName,
 			Password: req.Password,
-			Game:     make(map[int]Struct.Game),
 		})
 		if util.BadReq(e, c) != nil {
 			return

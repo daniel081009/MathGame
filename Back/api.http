@@ -94,6 +94,14 @@ Content-Type: application/json
 }
 ###
 
+GET   http://localhost:8080/rank/my
+Content-Type: application/json
+###
+
+GET   http://localhost:8080/rank/all/4
+Content-Type: application/json
+
+###
 POST  http://localhost:8080/rank/create
 Content-Type: application/json
 
@@ -101,24 +109,17 @@ Content-Type: application/json
     "type":4
 }
 ###
-POST http://localhost:8080/game/end
+POST http://localhost:8080/rank/end
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": 2,
     "tlog":[
         {
             "Problem":"1+1",
             "Answer":2,
-            "User_Answer":2,
-            "Time": 10,
-            "Ok": true
-        },
-        {
-            "Problem":"1+1",
-            "Answer":2,
-            "User_Answer":2,
-            "Time": 10,
+            "User_Answer":3,
+            "Time": 20,
             "Ok": true
         },
         {
@@ -126,7 +127,28 @@ Content-Type: application/json
             "Answer":2,
             "User_Answer":3,
             "Time": 20,
-            "Ok": false
+            "Ok": true
+        },
+        {
+            "Problem":"1+1",
+            "Answer":2,
+            "User_Answer":3,
+            "Time": 20,
+            "Ok": true
+        },
+        {
+            "Problem":"1+1",
+            "Answer":2,
+            "User_Answer":3,
+            "Time": 20,
+            "Ok": true
+        },
+        {
+            "Problem":"1+1",
+            "Answer":2,
+            "User_Answer":3,
+            "Time": 20,
+            "Ok": true
         },
         {
             "Problem":"1+1",

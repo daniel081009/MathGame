@@ -2,7 +2,7 @@ package Game
 
 import (
 	"MathGame/DB"
-	"MathGame/Struct"
+	"MathGame/System"
 	"MathGame/util"
 	"fmt"
 	"time"
@@ -10,24 +10,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateGame(u *Struct.User, Type int, Level int, RunningTime int, Rank bool) (int, error) {
-	if u.Game == nil {
-		u.Game = map[int]Struct.Game{}
-	}
-	Pro, err := Struct.CreateProblem(Type, Level, 250)
+func CreateGame(UserName string, Type int, Level int, RunningTime int, Rank bool) (System.Game, error) {
+	Pro, err := System.CreateProblem(Type, Level, 250)
 	if err != nil {
-		return 0, err
+		return System.Game{}, err
 	}
-
-	id := len(u.Game)
-	u.Game[id] = Struct.Game{
-		Setting: Struct.Setting{
+	Id := util.RandString(10)
+	if _, err := DB.GetGameLogOne(UserName, Id); err != nil {
+		return CreateGame(UserName, Type, Level, RunningTime, Rank)
+	}
+	Game := System.Game{
+		Id: Id,
+		Setting: System.Setting{
 			Type:        Type,
 			Level:       Level,
 			RunningTime: RunningTime,
 		},
 		StartTime: time.Now(),
-		TLog:      []Struct.TLog{},
+		TLog:      []System.TLog{},
 		Problem:   Pro,
 		EndGame:   0,
 		RankGame:  Rank,
@@ -35,17 +35,18 @@ func CreateGame(u *Struct.User, Type int, Level int, RunningTime int, Rank bool)
 	go func() {
 		RunningTime++
 		time.Sleep(time.Second * time.Duration(RunningTime))
-		if u.Game[id].EndGame != 0 {
+		data, err := DB.GetGameLogOne(UserName, Id)
+		if err != nil {
+			fmt.Println(err)
 			return
 		}
-		if data, ok := u.Game[id]; ok {
+		if data.EndGame > 0 {
 			data.EndGame = 2
 			data.EndTime = time.Now()
-			u.Game[id] = data
-			DB.DBUpdateUser(*u)
 		}
+		DB.UpdateGameLog(UserName, data)
 	}()
-	return id, nil
+	return Game, nil
 }
 func Route(Game_api *gin.RouterGroup) {
 	Game_api.GET("get/:id", func(ctx *gin.Context) {
@@ -53,7 +54,8 @@ func Route(Game_api *gin.RouterGroup) {
 
 		Token, _ := ctx.Cookie("Token")
 		User_Data, _ := DB.GetUsertoToken(Token)
-		if util.StrToInt(Id) > len(User_Data.Game) {
+		data, err := DB.GetGameLogOne(User_Data.UserName, Id)
+		if err != nil {
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
 			})
@@ -61,19 +63,27 @@ func Route(Game_api *gin.RouterGroup) {
 		}
 		ctx.JSON(200, gin.H{
 			"message": "success",
-			"data":    User_Data.Game[util.StrToInt(Id)],
+			"data":    data,
 		})
 	})
 	Game_api.GET("get", func(ctx *gin.Context) {
-		Token, _ := ctx.Cookie("Token")
-		User_Data, _ := DB.GetUsertoToken(Token)
+		Token, err := ctx.Cookie("Token")
+		if util.BadReq(err, ctx) != nil {
+			return
+		}
+		User_Data, err := DB.GetUsertoToken(Token)
+		if util.BadReq(err, ctx) != nil {
+			return
+		}
+		data, err := DB.GetGameLog(User_Data.UserName)
+
 		ctx.JSON(200, gin.H{
 			"message": "success",
-			"data":    User_Data.Game,
+			"data":    data,
 		})
 	})
 	Game_api.POST("create", func(ctx *gin.Context) {
-		g := Struct.Setting{}
+		g := System.Setting{}
 		util.Req(&g, ctx)
 
 		if g.RunningTime < 30 || g.RunningTime > 3000 {
@@ -81,7 +91,7 @@ func Route(Game_api *gin.RouterGroup) {
 				"message": "bad request",
 			})
 			return
-		} else if _, err := Struct.CreateProblem(g.Level, g.Type, 1); err != nil {
+		} else if _, err := System.CreateProblem(g.Level, g.Type, 1); err != nil {
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
 			})
@@ -94,7 +104,7 @@ func Route(Game_api *gin.RouterGroup) {
 			return
 		}
 
-		ID, e := CreateGame(&User_Data, g.Type, g.Level, g.RunningTime, false)
+		data, e := CreateGame(User_Data.UserName, g.Type, g.Level, g.RunningTime, false)
 		if util.BadReq(e, ctx) != nil {
 			return
 		}
@@ -105,13 +115,14 @@ func Route(Game_api *gin.RouterGroup) {
 
 		ctx.JSON(200, gin.H{
 			"message": "success",
-			"ID":      ID,
+			"ID":      data.Id,
+			"problem": data.Problem,
 		})
 	})
 	Game_api.POST("end", func(ctx *gin.Context) {
 		g := struct {
-			Id   int           `json:"id"`
-			Tlog []Struct.TLog `json:"tlog"`
+			Id   string        `json:"id"`
+			Tlog []System.TLog `json:"tlog"`
 		}{}
 		util.Req(&g, ctx)
 
@@ -121,9 +132,8 @@ func Route(Game_api *gin.RouterGroup) {
 			fmt.Println(err)
 			return
 		}
-
-		data, exists := User_Data.Game[g.Id]
-		if !exists || data.EndGame != 0 {
+		data, err := DB.GetGameLogOne(User_Data.UserName, g.Id)
+		if err != nil || data.EndGame != 0 {
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
 			})
@@ -131,9 +141,8 @@ func Route(Game_api *gin.RouterGroup) {
 		}
 
 		data.End(User_Data.UserName, g.Tlog)
-		User_Data.Game[g.Id] = data
 
-		util.BadReq(DB.DBUpdateUser(User_Data), ctx)
+		util.BadReq(DB.UpdateGameLog(User_Data.UserName, data), ctx)
 
 		ctx.JSON(200, gin.H{
 			"message": "success",

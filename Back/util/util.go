@@ -26,6 +26,17 @@ func BadReq(err error, ctx *gin.Context) error {
 	}
 	return err
 }
+
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
+
+func RandString(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+	}
+	return string(b)
+}
+
 func StrToInt(s string) int {
 	n, err := strconv.Atoi(s)
 	if err != nil {
