@@ -100,7 +100,7 @@ type Setting struct {
 	RunningTime int `json:"runningtime"` // 30 = 30s, 60 = 1m , 180 = 3m, 3000 = 5m
 }
 
-func (g *Game) End(UserName string, TLog []TLog) {
+func (g *Game) End(TLog []TLog) {
 	avg := 0
 	for _, v := range TLog {
 		avg += v.Time

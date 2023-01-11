@@ -97,9 +97,13 @@ func GetGameLog(UserName string) (map[string]System.Game, error) {
 	db := DB(GamePath)
 	defer db.Close()
 
-	var GameLog map[string]System.Game
+	var GameLog map[string]System.Game = make(map[string]System.Game)
 	err := db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte(UserName))
+		b, err := tx.CreateBucketIfNotExists([]byte(UserName))
+		if err != nil {
+			fmt.Println(err)
+			return nil
+		}
 		c := b.Cursor()
 		for k, v := c.First(); k != nil; k, v = c.Next() {
 			var game System.Game
@@ -129,14 +133,14 @@ func GetGameLogOne(UserName string, Id string) (System.Game, error) {
 
 	return game, err
 }
-func UpdateGameLog(UserName string, game System.Game) error {
+func UpdateADDGameLog(UserName string, game System.Game) error {
 	db := DB(GamePath)
 	defer db.Close()
 
 	err := db.Update(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte(UserName))
-		b.Put([]byte(game.Id), util.StructtoByte(game))
-		return nil
+		b, _ := tx.CreateBucketIfNotExists([]byte(UserName))
+		err := b.Put([]byte(game.Id), util.StructtoByte(game))
+		return err
 	})
 	return err
 }
@@ -168,7 +172,6 @@ func GetRankOne(id string) (System.Ranking, error) {
 		return nil
 	})
 	return Rank, e
-
 }
 func UpdateRank(id int, Rank System.Ranking) error {
 	db := DB(RankPath)

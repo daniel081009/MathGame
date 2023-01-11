@@ -44,7 +44,7 @@ func CreateGame(UserName string, Type int, Level int, RunningTime int, Rank bool
 			data.EndGame = 2
 			data.EndTime = time.Now()
 		}
-		DB.UpdateGameLog(UserName, data)
+		DB.UpdateADDGameLog(UserName, data)
 	}()
 	return Game, nil
 }
@@ -140,9 +140,9 @@ func Route(Game_api *gin.RouterGroup) {
 			return
 		}
 
-		data.End(User_Data.UserName, g.Tlog)
+		// data.End(User_Data.UserName, g.Tlog)
 
-		util.BadReq(DB.UpdateGameLog(User_Data.UserName, data), ctx)
+		util.BadReq(DB.UpdateADDGameLog(User_Data.UserName, data), ctx)
 
 		ctx.JSON(200, gin.H{
 			"message": "success",

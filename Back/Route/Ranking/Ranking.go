@@ -77,7 +77,7 @@ func Route(rank_api *gin.RouterGroup) {
 		Game, err := Game.CreateGame(User_Data.UserName, req.Type, 1, 60, true)
 		util.BadReq(err, ctx)
 
-		util.BadReq(DB.UpdateGameLog(User_Data.UserName, Game), ctx)
+		util.BadReq(DB.UpdateADDGameLog(User_Data.UserName, Game), ctx)
 
 		ctx.JSON(200, gin.H{
 			"message": "success",
@@ -106,8 +106,7 @@ func Route(rank_api *gin.RouterGroup) {
 			return
 		}
 
-		data.TLog = req.Tlog
-		data.End(User_Data.UserName, req.Tlog)
+		data.End(req.Tlog)
 
 		db := DB.DB(DB.RankPath)
 		defer db.Close()
