@@ -72,7 +72,6 @@ func DBUpdateUser(user System.User) error {
 		e := b.Put([]byte(user.UserName), util.StructtoByte(user))
 		return e
 	})
-	fmt.Println(err)
 	return err
 }
 
@@ -98,11 +97,10 @@ func GetGameLog(UserName string) (map[string]System.Game, error) {
 	defer db.Close()
 
 	var GameLog map[string]System.Game = make(map[string]System.Game)
-	err := db.View(func(tx *bolt.Tx) error {
+	err := db.Update(func(tx *bolt.Tx) error {
 		b, err := tx.CreateBucketIfNotExists([]byte(UserName))
 		if err != nil {
-			fmt.Println(err)
-			return nil
+			return err
 		}
 		c := b.Cursor()
 		for k, v := c.First(); k != nil; k, v = c.Next() {
@@ -120,8 +118,11 @@ func GetGameLogOne(UserName string, Id string) (System.Game, error) {
 	defer db.Close()
 
 	var game System.Game
-	err := db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte(UserName))
+	err := db.Update(func(tx *bolt.Tx) error {
+		b, err := tx.CreateBucketIfNotExists([]byte(UserName))
+		if err != nil {
+			return err
+		}
 		v := b.Get([]byte(Id))
 		if v != nil {
 			util.BytetoStruct(v, &game)
@@ -133,13 +134,17 @@ func GetGameLogOne(UserName string, Id string) (System.Game, error) {
 
 	return game, err
 }
-func UpdateADDGameLog(UserName string, game System.Game) error {
+func UpdateGameLog(UserName string, game System.Game) error {
 	db := DB(GamePath)
 	defer db.Close()
 
 	err := db.Update(func(tx *bolt.Tx) error {
-		b, _ := tx.CreateBucketIfNotExists([]byte(UserName))
-		err := b.Put([]byte(game.Id), util.StructtoByte(game))
+		b, err := tx.CreateBucketIfNotExists([]byte(UserName))
+		if err != nil {
+			return err
+		}
+
+		err = b.Put([]byte(game.Id), util.StructtoByte(game))
 		return err
 	})
 	return err
@@ -161,14 +166,14 @@ func GetRank() (map[int]System.Ranking, error) {
 	})
 	return Rank, e
 }
-func GetRankOne(id string) (System.Ranking, error) {
+func GetRankOne(id int) (System.Ranking, error) {
 	db := DB(RankPath)
 	defer db.Close()
 
 	var Rank System.Ranking
 	e := db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte(RankBucket))
-		util.BytetoStruct(b.Get([]byte(id)), &Rank)
+		util.BytetoStruct(b.Get(util.IntoByte(id)), &Rank)
 		return nil
 	})
 	return Rank, e

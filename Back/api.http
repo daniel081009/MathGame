@@ -15,15 +15,16 @@ Content-Type: application/json
     "username": "admin",
     "password": "admin"
 }
-
 ###
-GET http://localhost:8080/
-Content-Type: application/json
+GET http://localhost:8080/user/data/all
+###
+GET http://localhost:8080/user/data/best
+
 ###
 GET     http://localhost:8080/game/get 
 Content-Type: application/json
 ###
-GET     http://localhost:8080/game/get/1
+GET     http://localhost:8080/game/get/g7N8mk4Fy8
 Content-Type: application/json
 ###
 POST http://localhost:8080/game/create
@@ -39,7 +40,7 @@ POST http://localhost:8080/game/end
 Content-Type: application/json
 
 {
-    "id": 1,
+    "id": "VKNNzlyOha",
     "tlog":[
         {
             "Problem":"1+1",
@@ -87,10 +88,6 @@ Content-Type: application/json
 }
 ###
 
-GET   http://localhost:8080/rank/my
-Content-Type: application/json
-###
-
 GET   http://localhost:8080/rank/all/4
 Content-Type: application/json
 
@@ -106,7 +103,7 @@ POST http://localhost:8080/rank/end
 Content-Type: application/json
 
 {
-    "id": 2,
+    "id": "hNAxspeWxx",
     "tlog":[
         {
             "Problem":"1+1",

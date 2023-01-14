@@ -19,6 +19,9 @@ func Route(User_api *gin.RouterGroup) {
 		util.Req(&req, c)
 
 		d, e := DB.GetUsertoUserName(req.UserName)
+		if util.BadReq(e, c, "User not Found") != nil {
+			return
+		}
 		if d.Password != req.Password {
 			c.AbortWithStatusJSON(401, gin.H{
 				"message": "Bad Request",
@@ -26,13 +29,11 @@ func Route(User_api *gin.RouterGroup) {
 			return
 		}
 
-		if e != nil {
-			c.AbortWithStatusJSON(401, gin.H{
-				"message": "Bad Request",
-			})
+		token, err := Jwt.GetJwtToken(d.UserName)
+		if util.BadReq(err, c, "Jwt Token Err") != nil {
+			fmt.Println(err)
 			return
 		}
-		token, _ := Jwt.GetJwtToken(d.UserName)
 		c.SetCookie("Token", token, 36000, "/", "localhost", false, true)
 		c.JSON(200, gin.H{
 			"message": "OK",
@@ -46,7 +47,6 @@ func Route(User_api *gin.RouterGroup) {
 		if util.Req(&req, c) != nil {
 			return
 		}
-		fmt.Println(req)
 
 		if _, err := DB.GetUsertoUserName(req.UserName); err != nil {
 			c.AbortWithStatusJSON(401, gin.H{
@@ -58,7 +58,7 @@ func Route(User_api *gin.RouterGroup) {
 			UserName: req.UserName,
 			Password: req.Password,
 		})
-		if util.BadReq(e, c) != nil {
+		if util.BadReq(e, c, "DB Update Err") != nil {
 			return
 		}
 
@@ -66,4 +66,41 @@ func Route(User_api *gin.RouterGroup) {
 			"message": "OK!",
 		})
 	})
+	d := User_api.Group("data")
+	{
+		d.GET("all", func(c *gin.Context) {
+			token, e := c.Cookie("Token")
+			if util.BadReq(e, c, "Token Load Err") != nil {
+				return
+			}
+			User_Data, err := DB.GetUsertoToken(token)
+			if util.BadReq(err, c, "DB User Load Err") != nil {
+				return
+			}
+			games, err := DB.GetGameLog(User_Data.UserName)
+			if util.BadReq(err, c, "Load Game Err") != nil {
+				return
+			}
+
+			c.JSON(200, gin.H{
+				"message": "OK!",
+				"best":    User_Data.Best,
+				"games":   games,
+			})
+		})
+		d.GET("best", func(c *gin.Context) {
+			token, e := c.Cookie("Token")
+			if util.BadReq(e, c, "Load Token Err") != nil {
+				return
+			}
+			User_Data, err := DB.GetUsertoToken(token)
+			if util.BadReq(err, c, "Load User Err") != nil {
+				return
+			}
+			c.JSON(200, gin.H{
+				"message": "OK!",
+				"best":    User_Data.Best,
+			})
+		})
+	}
 }

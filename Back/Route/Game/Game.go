@@ -16,9 +16,6 @@ func CreateGame(UserName string, Type int, Level int, RunningTime int, Rank bool
 		return System.Game{}, err
 	}
 	Id := util.RandString(10)
-	if _, err := DB.GetGameLogOne(UserName, Id); err != nil {
-		return CreateGame(UserName, Type, Level, RunningTime, Rank)
-	}
 	Game := System.Game{
 		Id: Id,
 		Setting: System.Setting{
@@ -37,14 +34,13 @@ func CreateGame(UserName string, Type int, Level int, RunningTime int, Rank bool
 		time.Sleep(time.Second * time.Duration(RunningTime))
 		data, err := DB.GetGameLogOne(UserName, Id)
 		if err != nil {
-			fmt.Println(err)
 			return
 		}
-		if data.EndGame > 0 {
+		if data.EndGame == 0 {
 			data.EndGame = 2
 			data.EndTime = time.Now()
+			DB.UpdateGameLog(UserName, data)
 		}
-		DB.UpdateADDGameLog(UserName, data)
 	}()
 	return Game, nil
 }
@@ -52,8 +48,16 @@ func Route(Game_api *gin.RouterGroup) {
 	Game_api.GET("get/:id", func(ctx *gin.Context) {
 		Id := ctx.Param("id")
 
-		Token, _ := ctx.Cookie("Token")
-		User_Data, _ := DB.GetUsertoToken(Token)
+		Token, err := ctx.Cookie("Token")
+		if util.BadReq(err, ctx, "Token Load Err") != nil {
+			fmt.Println(err)
+			return
+		}
+		User_Data, err := DB.GetUsertoToken(Token)
+		if util.BadReq(err, ctx, "User Load Err") != nil {
+			fmt.Println(err)
+			return
+		}
 		data, err := DB.GetGameLogOne(User_Data.UserName, Id)
 		if err != nil {
 			ctx.AbortWithStatusJSON(400, gin.H{
@@ -68,14 +72,17 @@ func Route(Game_api *gin.RouterGroup) {
 	})
 	Game_api.GET("get", func(ctx *gin.Context) {
 		Token, err := ctx.Cookie("Token")
-		if util.BadReq(err, ctx) != nil {
+		if util.BadReq(err, ctx, "Token Load Err") != nil {
 			return
 		}
 		User_Data, err := DB.GetUsertoToken(Token)
-		if util.BadReq(err, ctx) != nil {
+		if util.BadReq(err, ctx, "User Load Err") != nil {
 			return
 		}
 		data, err := DB.GetGameLog(User_Data.UserName)
+		if util.BadReq(err, ctx, "Game Load Err") != nil {
+			return
+		}
 
 		ctx.JSON(200, gin.H{
 			"message": "success",
@@ -98,18 +105,20 @@ func Route(Game_api *gin.RouterGroup) {
 			return
 		}
 
-		Token, _ := ctx.Cookie("Token")
+		Token, err := ctx.Cookie("Token")
+		if util.BadReq(err, ctx, "Token Load Err") != nil {
+			return
+		}
 		User_Data, err := DB.GetUsertoToken(Token)
-		if util.BadReq(err, ctx) != nil {
+		if util.BadReq(err, ctx, "User Load Err") != nil {
 			return
 		}
 
 		data, e := CreateGame(User_Data.UserName, g.Type, g.Level, g.RunningTime, false)
-		if util.BadReq(e, ctx) != nil {
+		if util.BadReq(e, ctx, "Game Create Err") != nil {
 			return
 		}
-
-		if util.BadReq(DB.DBUpdateUser(User_Data), ctx) != nil {
+		if util.BadReq(DB.UpdateGameLog(User_Data.UserName, data), ctx, "DB Update Err") != nil {
 			return
 		}
 
@@ -126,9 +135,13 @@ func Route(Game_api *gin.RouterGroup) {
 		}{}
 		util.Req(&g, ctx)
 
-		Token, _ := ctx.Cookie("Token")
+		Token, err := ctx.Cookie("Token")
+		if util.BadReq(err, ctx, "Token User Err") != nil {
+			fmt.Println(err)
+			return
+		}
 		User_Data, err := DB.GetUsertoToken(Token)
-		if util.BadReq(err, ctx) != nil {
+		if util.BadReq(err, ctx, "Load User Err") != nil {
 			fmt.Println(err)
 			return
 		}
@@ -140,9 +153,9 @@ func Route(Game_api *gin.RouterGroup) {
 			return
 		}
 
-		// data.End(User_Data.UserName, g.Tlog)
+		data.End(g.Tlog)
 
-		util.BadReq(DB.UpdateADDGameLog(User_Data.UserName, data), ctx)
+		util.BadReq(DB.UpdateGameLog(User_Data.UserName, data), ctx, "Update DB Err")
 
 		ctx.JSON(200, gin.H{
 			"message": "success",

@@ -12,6 +12,7 @@ func (u *User) Init() {
 	}
 }
 func (u *User) CheckBest(game Game) {
+	u.Init()
 	if data, exzist := u.Best[game.Setting.Type]; !exzist {
 		u.Best[game.Setting.Type] = Rank{
 			UserName: u.UserName,

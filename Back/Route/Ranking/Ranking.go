@@ -12,18 +12,6 @@ import (
 )
 
 func Route(rank_api *gin.RouterGroup) {
-	rank_api.GET("my", func(ctx *gin.Context) {
-		Token, _ := ctx.Cookie("Token")
-		User_Data, _ := DB.GetUsertoToken(Token)
-
-		User_Data.Init()
-
-		ctx.JSON(200, gin.H{
-			"message": "success",
-
-			"best": User_Data.Best,
-		})
-	})
 	rank_api.GET("all/:type", func(ctx *gin.Context) {
 		Type := ctx.Param("type")
 
@@ -42,7 +30,7 @@ func Route(rank_api *gin.RouterGroup) {
 			}
 
 			return nil
-		}), ctx) != nil {
+		}), ctx, "DB Load Err") != nil {
 			return
 		}
 
@@ -53,11 +41,11 @@ func Route(rank_api *gin.RouterGroup) {
 	})
 	rank_api.POST("create", func(ctx *gin.Context) {
 		token, e := ctx.Cookie("Token")
-		if util.BadReq(e, ctx) != nil {
+		if util.BadReq(e, ctx, "Token Load Err") != nil {
 			return
 		}
 		User_Data, err := DB.GetUsertoToken(token)
-		if util.BadReq(err, ctx) != nil {
+		if util.BadReq(err, ctx, "User Load Err") != nil {
 			return
 		}
 
@@ -75,9 +63,9 @@ func Route(rank_api *gin.RouterGroup) {
 			return
 		}
 		Game, err := Game.CreateGame(User_Data.UserName, req.Type, 1, 60, true)
-		util.BadReq(err, ctx)
+		util.BadReq(err, ctx, "Game Create Err")
 
-		util.BadReq(DB.UpdateADDGameLog(User_Data.UserName, Game), ctx)
+		util.BadReq(DB.UpdateGameLog(User_Data.UserName, Game), ctx, "DB Update Err")
 
 		ctx.JSON(200, gin.H{
 			"message": "success",
@@ -92,9 +80,12 @@ func Route(rank_api *gin.RouterGroup) {
 		}{}
 		util.Req(&req, ctx)
 
-		Token, _ := ctx.Cookie("Token")
+		Token, err := ctx.Cookie("Token")
+		if util.BadReq(err, ctx, "Token Load Err") != nil {
+			return
+		}
 		User_Data, err := DB.GetUsertoToken(Token)
-		if util.BadReq(err, ctx) != nil {
+		if util.BadReq(err, ctx, "User Load Err") != nil {
 			return
 		}
 
@@ -132,7 +123,7 @@ func Route(rank_api *gin.RouterGroup) {
 			}
 			return nil
 		})
-		if util.BadReq(e, ctx) != nil {
+		if util.BadReq(e, ctx, "DB Err") != nil {
 			return
 		}
 
@@ -140,12 +131,5 @@ func Route(rank_api *gin.RouterGroup) {
 			"message": "success",
 			"rank":    allRank,
 		})
-	})
-	rank_api.GET("get", func(ctx *gin.Context) {
-		token := ctx.Query("token")
-		_, err := DB.GetUsertoToken(token)
-		util.BadReq(err, ctx)
-
-		// ToDo : Get Ranking Game
 	})
 }

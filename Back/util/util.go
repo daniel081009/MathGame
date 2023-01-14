@@ -7,21 +7,23 @@ import (
 	"math/big"
 	"math/rand"
 	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Req(dan any, c *gin.Context) error {
 	err := c.ShouldBind(&dan)
-	if BadReq(err, c) != nil {
+	if BadReq(err, c, "body err") != nil {
 		return err
 	}
 	return nil
 }
-func BadReq(err error, ctx *gin.Context) error {
+func BadReq(err error, ctx *gin.Context, msg string) error {
 	if err != nil {
 		ctx.AbortWithStatusJSON(400, gin.H{
 			"message": "bad request",
+			"msg":     msg,
 		})
 	}
 	return err
@@ -30,6 +32,7 @@ func BadReq(err error, ctx *gin.Context) error {
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
 
 func RandString(n int) string {
+	rand.Seed(time.Now().UnixNano())
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = letterRunes[rand.Intn(len(letterRunes))]
