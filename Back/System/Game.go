@@ -71,14 +71,8 @@ func CreateProblem(Type int, Level int, len int) ([]Problem, error) {
 				Answer:  a * b,
 			})
 		} else if Type == 3 {
-			a, b = util.RandInt(min, max), util.RandInt(min, max)
+			a, b = util.RandInt(1, max), util.RandInt(1, max)
 			c := a * b
-			if c == 0 && a == 0 {
-				a = 1
-			}
-			if c > Level {
-				return CreateProblem(Type, Level, 1)
-			}
 
 			problem = append(problem, Problem{
 				Type:    Type,
@@ -113,7 +107,7 @@ func (g *Game) End(TLog []TLog) {
 	avg /= len(TLog)
 
 	for _, v := range TLog {
-		if v.Answer != v.User_Answer {
+		if g.Problem[v.Problem_Id].Answer != v.User_Answer {
 			g.WrongProblem = append(g.WrongProblem, v)
 			g.Score--
 		} else if v.Time > avg {
@@ -133,6 +127,5 @@ func (g *Game) End(TLog []TLog) {
 type TLog struct {
 	Problem_Id  int
 	User_Answer int
-	Answer      int
 	Time        int
 }

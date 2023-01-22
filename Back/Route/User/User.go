@@ -39,6 +39,7 @@ func Route(User_api *gin.RouterGroup) {
 		c.SetCookie("Token", token, 36000, "/", "localhost", false, true)
 		c.JSON(200, gin.H{
 			"message": "OK",
+			"Token":   token,
 		})
 	})
 	User_api.POST("register", func(c *gin.Context) {
