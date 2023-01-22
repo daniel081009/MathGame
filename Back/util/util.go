@@ -3,6 +3,7 @@ package util
 import (
 	"bytes"
 	"encoding/gob"
+	"fmt"
 	"log"
 	"math/big"
 	"math/rand"
@@ -14,6 +15,7 @@ import (
 
 func Req(dan any, c *gin.Context) error {
 	err := c.ShouldBind(&dan)
+	fmt.Println(err)
 	if BadReq(err, c, "body err") != nil {
 		return err
 	}

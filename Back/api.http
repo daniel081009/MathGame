@@ -2,8 +2,8 @@ POST http://localhost:8080/user/login
 Content-Type: application/json
 
 {
-    "username": "admin",
-    "password": "admin"
+    "username": "test",
+    "password": "test"
 }
 
 ###
@@ -40,7 +40,7 @@ POST http://localhost:8080/game/end
 Content-Type: application/json
 
 {
-    "id": "VKNNzlyOha",
+    "id": "tXRkFNTdwz",
     "tlog":[
         {
             "Problem":"1+1",

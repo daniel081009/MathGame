@@ -13,7 +13,7 @@ type Game struct {
 
 	Score        int
 	AverageTime  int
-	Problem      map[int]Problem
+	Problem      []Problem
 	LongProblem  []TLog
 	WrongProblem []TLog
 	TLog         []TLog
@@ -29,9 +29,9 @@ type Problem struct {
 	Answer  int
 }
 
-func CreateProblem(Type int, Level int, len int) (map[int]Problem, error) {
+func CreateProblem(Type int, Level int, len int) ([]Problem, error) {
 	if Level < 0 || Level > 2 {
-		return nil, errors.New("level must be 0~2")
+		return nil, errors.New("level must be 0~2 but " + strconv.Itoa(Level))
 	}
 	if Type < 0 || Type > 4 {
 		return nil, errors.New("type must be 0~3")
@@ -46,30 +46,30 @@ func CreateProblem(Type int, Level int, len int) (map[int]Problem, error) {
 	} else if Level == 2 {
 		min, max = 0, 50
 	}
-	problem := map[int]Problem{}
+	problem := []Problem{}
 	for i := 0; i < len; i++ {
 		a, b := util.RandInt(min, max), util.RandInt(min, max)
 		if Type == 0 {
-			problem[i] = Problem{
+			problem = append(problem, Problem{
 				Type:    Type,
 				Problem: strconv.Itoa(a) + "+" + strconv.Itoa(b),
 				Answer:  a + b,
-			}
+			})
 		} else if Type == 1 {
 			if a < b {
 				a, b = b, a
 			}
-			problem[i] = Problem{
+			problem = append(problem, Problem{
 				Type:    Type,
 				Problem: strconv.Itoa(a) + "-" + strconv.Itoa(b),
 				Answer:  a - b,
-			}
+			})
 		} else if Type == 2 {
-			problem[i] = Problem{
+			problem = append(problem, Problem{
 				Type:    Type,
 				Problem: strconv.Itoa(a) + "*" + strconv.Itoa(b),
 				Answer:  a * b,
-			}
+			})
 		} else if Type == 3 {
 			a, b = util.RandInt(min, max), util.RandInt(min, max)
 			c := a * b
@@ -80,15 +80,15 @@ func CreateProblem(Type int, Level int, len int) (map[int]Problem, error) {
 				return CreateProblem(Type, Level, 1)
 			}
 
-			problem[i] = Problem{
+			problem = append(problem, Problem{
 				Type:    Type,
 				Problem: strconv.Itoa(c) + "/" + strconv.Itoa(a),
 				Answer:  b,
-			}
+			})
 		} else if Type == 4 {
 			c := util.RandInt(0, 4)
 			data, _ := CreateProblem(c, Level, 1)
-			problem[i] = data[0]
+			problem = append(problem, data[0])
 		}
 	}
 	return problem, nil
@@ -105,11 +105,17 @@ func (g *Game) End(TLog []TLog) {
 	for _, v := range TLog {
 		avg += v.Time
 	}
+	if len(TLog) == 0 {
+		g.EndGame = 2
+		return
+	}
+
 	avg /= len(TLog)
 
 	for _, v := range TLog {
-		if !v.Ok {
+		if v.Answer != v.User_Answer {
 			g.WrongProblem = append(g.WrongProblem, v)
+			g.Score--
 		} else if v.Time > avg {
 			g.LongProblem = append(g.LongProblem, v)
 			g.Score++
@@ -129,5 +135,4 @@ type TLog struct {
 	User_Answer int
 	Answer      int
 	Time        int
-	Ok          bool
 }

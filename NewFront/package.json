@@ -1,0 +1,13 @@
+{
+  "name": "mathgame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.2.3",
+    "bootstrap": "^5.2.3",
+    "lit-element": "^2.2.1"
+  }
+}

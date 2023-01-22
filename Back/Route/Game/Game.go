@@ -91,14 +91,17 @@ func Route(Game_api *gin.RouterGroup) {
 	})
 	Game_api.POST("create", func(ctx *gin.Context) {
 		g := System.Setting{}
-		util.Req(&g, ctx)
+		if util.Req(&g, ctx) != nil {
+			return
+		}
 
 		if g.RunningTime < 30 || g.RunningTime > 3000 {
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
 			})
 			return
-		} else if _, err := System.CreateProblem(g.Level, g.Type, 1); err != nil {
+		} else if _, err := System.CreateProblem(g.Type, g.Level, 1); err != nil {
+			fmt.Println(err)
 			ctx.AbortWithStatusJSON(400, gin.H{
 				"message": "bad request",
 			})
@@ -133,7 +136,9 @@ func Route(Game_api *gin.RouterGroup) {
 			Id   string        `json:"id"`
 			Tlog []System.TLog `json:"tlog"`
 		}{}
-		util.Req(&g, ctx)
+		if util.Req(&g, ctx) != nil {
+			return
+		}
 
 		Token, err := ctx.Cookie("Token")
 		if util.BadReq(err, ctx, "Token User Err") != nil {
@@ -159,6 +164,7 @@ func Route(Game_api *gin.RouterGroup) {
 
 		ctx.JSON(200, gin.H{
 			"message": "success",
+			"data":    data,
 		})
 	})
 }

@@ -16,7 +16,9 @@ func Route(User_api *gin.RouterGroup) {
 			UserName string `json:"username" binding:"required"`
 			Password string `json:"password" binding:"required"`
 		}{}
-		util.Req(&req, c)
+		if util.Req(&req, c) != nil {
+			return
+		}
 
 		d, e := DB.GetUsertoUserName(req.UserName)
 		if util.BadReq(e, c, "User not Found") != nil {
