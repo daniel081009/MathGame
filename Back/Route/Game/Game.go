@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/boltdb/bolt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,12 +23,12 @@ func CreateGame(UserName string, Type int, Level int, RunningTime int, Rank bool
 			Type:        Type,
 			Level:       Level,
 			RunningTime: RunningTime,
+			Rank:        Rank,
 		},
 		StartTime: time.Now(),
 		TLog:      []System.TLog{},
 		Problem:   Pro,
 		EndGame:   0,
-		RankGame:  Rank,
 	}
 	go func() {
 		RunningTime++
@@ -83,10 +84,24 @@ func Route(Game_api *gin.RouterGroup) {
 		if util.BadReq(err, ctx, "Game Load Err") != nil {
 			return
 		}
+		temp := map[string]struct {
+			Id      string
+			Score   int
+			EndTime time.Time
+			EndGame int
+		}{}
+		for _, v := range data {
+			temp[v.Id] = struct {
+				Id      string
+				Score   int
+				EndTime time.Time
+				EndGame int
+			}{v.Id, v.Score, v.EndTime, v.EndGame}
+		}
 
 		ctx.JSON(200, gin.H{
 			"message": "success",
-			"data":    data,
+			"data":    temp,
 		})
 	})
 	Game_api.POST("create", func(ctx *gin.Context) {
@@ -117,7 +132,7 @@ func Route(Game_api *gin.RouterGroup) {
 			return
 		}
 
-		data, e := CreateGame(User_Data.UserName, g.Type, g.Level, g.RunningTime, false)
+		data, e := CreateGame(User_Data.UserName, g.Type, g.Level, g.RunningTime, g.Rank)
 		if util.BadReq(e, ctx, "Game Create Err") != nil {
 			return
 		}
@@ -136,7 +151,7 @@ func Route(Game_api *gin.RouterGroup) {
 			Id   string        `json:"id"`
 			Tlog []System.TLog `json:"tlog"`
 		}{}
-		if util.Req(&g, ctx) != nil {
+		if util.BadReq(util.Req(&g, ctx), ctx, "Req Err") != nil {
 			return
 		}
 
@@ -159,9 +174,49 @@ func Route(Game_api *gin.RouterGroup) {
 		}
 
 		data.End(g.Tlog)
+		allRank := 0
+		if data.Setting.Rank {
+			db := DB.DB(DB.RankPath)
+			defer db.Close()
+			e := db.Update(func(tx *bolt.Tx) error {
+				b := tx.Bucket([]byte(DB.RankBucket))
+				Id := []byte(fmt.Sprintf("%d_%d_%d", data.Setting.Type, data.Setting.Level, data.Setting.RunningTime))
+
+				d := b.Get(Id)
+				rank := System.Ranking{}
+				if d != nil {
+					util.BytetoStruct(d, &rank)
+				}
+				allRank = rank.NewRank(System.Rank{UserName: User_Data.UserName, Game: data}, 10)
+
+				e := b.Put(Id, util.StructtoByte(rank))
+				if e != nil {
+					return e
+				}
+
+				User_Data.CheckBest(data)
+				e = DB.DBUpdateUser(User_Data)
+				if e != nil {
+					return e
+				}
+				return nil
+			})
+			if util.BadReq(e, ctx, "DB Err") != nil {
+				fmt.Println(e)
+				return
+			}
+		}
 
 		util.BadReq(DB.UpdateGameLog(User_Data.UserName, data), ctx, "Update DB Err")
 
+		if data.Setting.Rank == true {
+			ctx.JSON(200, gin.H{
+				"message": "success",
+				"data":    data,
+				"Rank":    allRank,
+			})
+			return
+		}
 		ctx.JSON(200, gin.H{
 			"message": "success",
 			"data":    data,

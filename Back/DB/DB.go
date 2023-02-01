@@ -21,7 +21,7 @@ const (
 )
 
 func DB(path string) bolt.DB {
-	db, err := bolt.Open(path, 0600, &bolt.Options{Timeout: 1 * time.Second})
+	db, err := bolt.Open(path, 0600, &bolt.Options{Timeout: 100 * time.Millisecond})
 	if err != nil {
 		log.Fatal(err)
 	}

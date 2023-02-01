@@ -25,7 +25,7 @@ func (r *Ranking) NewRank(rank Rank, loging int) int {
 		if r.Rank[i].Game.Score > rank.Game.Score {
 			ranknum = i + 2
 			if ranknum > loging {
-				return 0
+				return -99
 			}
 			r.Rank = append(r.Rank[:i+1], append([]Rank{rank}, r.Rank[i+1:]...)...)
 			break

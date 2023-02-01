@@ -18,7 +18,6 @@ type Game struct {
 	WrongProblem []TLog
 	TLog         []TLog
 
-	RankGame  bool
 	StartTime time.Time
 	EndTime   time.Time
 	EndGame   int // 0 = not end, 1 = end ,2 = time out
@@ -52,7 +51,7 @@ func CreateProblem(Type int, Level int, len int) ([]Problem, error) {
 		if Type == 0 {
 			problem = append(problem, Problem{
 				Type:    Type,
-				Problem: strconv.Itoa(a) + "+" + strconv.Itoa(b),
+				Problem: strconv.Itoa(a) + " + " + strconv.Itoa(b),
 				Answer:  a + b,
 			})
 		} else if Type == 1 {
@@ -61,13 +60,13 @@ func CreateProblem(Type int, Level int, len int) ([]Problem, error) {
 			}
 			problem = append(problem, Problem{
 				Type:    Type,
-				Problem: strconv.Itoa(a) + "-" + strconv.Itoa(b),
+				Problem: strconv.Itoa(a) + " - " + strconv.Itoa(b),
 				Answer:  a - b,
 			})
 		} else if Type == 2 {
 			problem = append(problem, Problem{
 				Type:    Type,
-				Problem: strconv.Itoa(a) + "*" + strconv.Itoa(b),
+				Problem: strconv.Itoa(a) + " × " + strconv.Itoa(b),
 				Answer:  a * b,
 			})
 		} else if Type == 3 {
@@ -76,7 +75,7 @@ func CreateProblem(Type int, Level int, len int) ([]Problem, error) {
 
 			problem = append(problem, Problem{
 				Type:    Type,
-				Problem: strconv.Itoa(c) + "/" + strconv.Itoa(a),
+				Problem: strconv.Itoa(c) + " ÷ " + strconv.Itoa(a),
 				Answer:  b,
 			})
 		} else if Type == 4 {
@@ -89,9 +88,10 @@ func CreateProblem(Type int, Level int, len int) ([]Problem, error) {
 }
 
 type Setting struct {
-	Type        int `json:"type"`        // 0:+ 1:-  2:*  3:/ , 4:all
-	Level       int `json:"level"`       // 0: 0~10 1: 0~20 2: 0~50
-	RunningTime int `json:"runningtime"` // 30 = 30s, 60 = 1m , 180 = 3m, 3000 = 5m
+	Type        int  `json:"type"`        // 0:+ 1:-  2:*  3:/ , 4:all
+	Level       int  `json:"level"`       // 0: 0~10 1: 0~20 2: 0~50
+	RunningTime int  `json:"runningtime"` // 30 = 30s, 60 = 1m , 180 = 3m, 3000 = 5m
+	Rank        bool `json:"rankgame"`
 }
 
 func (g *Game) End(TLog []TLog) {
