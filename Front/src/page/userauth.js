@@ -1,5 +1,4 @@
 import { LitElement, html } from "lit-element";
-import ChangePage from "../all";
 
 const BaseURL = "http://localhost:8080";
 
@@ -12,7 +11,6 @@ export class Login extends LitElement {
     this.page = 0;
   }
   ChangePage(page) {
-    console.log(page);
     this.page = page;
     this.requestUpdate();
   }
@@ -58,10 +56,9 @@ export class Login extends LitElement {
     try {
       let data = await axios.post(`${BaseURL}/user/register`, req);
       if (data.status == 200) {
-        data = await axios.post(`${BaseURL}/user/login`, req);
-        localStorage.setItem("username", username);
-        localStorage.setItem("Token", data.data.token);
-        ChangePage(1);
+        this.ChangePage(0);
+      } else {
+        document.getElementById("errmsg").innerText = "아이디가 중복됩니다";
       }
     } catch (e) {
       document.getElementById("errmsg").innerText =

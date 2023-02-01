@@ -1,6 +1,8 @@
 import { LitElement, html } from "lit-element";
 import "./page/userauth";
 import "./page/game";
+import "./page/dashboard/dashboard";
+import "./page/ranking";
 
 function CheckToken() {
   if (localStorage.getItem("Token") == null) {
@@ -11,79 +13,154 @@ function CheckToken() {
   }
 }
 
-export class Top extends LitElement {
-  constructor() {
-    super();
-  }
-  createRenderRoot() {
-    return this;
-  }
-  render() {
-    return html`
-      <div class="top">
-        <div id="nickname">${localStorage.getItem("username")}</div>
-
-        <div class="super_item">Dashboard</div>
-        <div class="super_item">Ranking</div>
-        <div class="super_item">Setting</div>
-        <div class="super_item">Logout</div>
-      </div>
-    `;
-  }
-}
-
 export class Main extends LitElement {
   constructor() {
     super();
     if (!CheckToken()) this.page = 0;
     else this.page = 1;
   }
-  changePage(page) {
-    this.page = page;
-    this.requestUpdate();
-  }
   createRenderRoot() {
     return this;
   }
-  startClick() {
-    const ri = document.querySelector('input[name="ri"]:checked');
-    const le = document.querySelector('input[name="le"]:checked');
-    const ti = document.querySelector('input[name="ti"]:checked');
-
-    if (ri == null || le == null || ti == null) {
-      let temp = document.createElement("div");
-      temp.innerText = "선택좀;;";
-      temp.style.color = "red";
-      temp.style.fontSize = "2rem";
-      temp.id = "error";
-      document.getElementsByClassName("container")[0].appendChild(temp);
-      return;
-    } else {
-      try {
-        let temp = document.getElementById("error");
-        temp.remove();
-      } catch (e) {}
-    }
-    const data = {
-      type: ri.value,
-      runningTime: ti.value,
-      level: le.value,
-    };
-    console.log(data);
-    // TODO : fetch
+  top() {
+    return html`
+      <div class="top">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div class="dropdown">
+          <span>${localStorage.getItem("username")}</span>
+          <div class="dropdown-content">
+            <div
+              @click=${() => {
+                this.page = 1;
+                this.requestUpdate();
+              }}
+            >
+              menu
+            </div>
+            <div
+              @click=${() => {
+                this.page = 2;
+                this.requestUpdate();
+              }}
+            >
+              Dashboard
+            </div>
+            <div
+              @click=${() => {
+                this.page = 3;
+                this.requestUpdate();
+                // TODO : 랭킹 페이지
+              }}
+            >
+              Ranking
+            </div>
+            <!-- <div
+              @click=${() => {
+              // TODO : 관련 설정이 필요할때 추가
+            }}
+            >
+              Setting
+            </div> -->
+            <div
+              @click=${() => {
+                localStorage.removeItem("username");
+                localStorage.removeItem("Token");
+                location.reload(true);
+                location;
+              }}
+            >
+              Logout
+            </div>
+          </div>
+        </div>
+      </div>
+      <style>
+        .top {
+          height: fit-content;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          font-size: 2rem;
+        }
+        .dropdown > span {
+          width: 20vw;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 2rem;
+          font-family: "GmarketSansMedium";
+        }
+        .dropdown {
+          display: block;
+          width: 20vw;
+        }
+        .dropdown-content {
+          width: 20vw;
+          display: none;
+          position: absolute;
+          background-color: #f9f9f9;
+          color: #242424;
+          min-width: 160px;
+          box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+          padding: 2px;
+          z-index: 1;
+        }
+        .dropdown-content > div {
+          display: flex;
+          align-items: center;
+          flex-flow: column;
+          width: 100%;
+        }
+        .dropdown-content > div:hover {
+          background-color: #f1f1f1;
+        }
+        .dropdown:hover .dropdown-content {
+          display: flex;
+          align-items: center;
+          flex-flow: column;
+        }
+      </style>
+    `;
   }
   render() {
+    // this.page = 2;
     if (this.page == 0) return html` <login-page></login-page>`;
     else if (this.page == 1)
       return html`
         <div class="main">
-          <top-bar></top-bar>
-          <div id="blockwow"></div>
+          ${this.top()}
 
           <game-main></game-main>
+          <div></div>
+          <div></div>
+        </div>
+      `;
+    else if (this.page == 2)
+      return html`
+        <div class="main">
+          ${this.top()}
+          <dashboard-page></dashboard-page>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      `;
+    else if (this.page == 3)
+      return html`
+        <div class="main">
+          ${this.top()}
+          <rank-page></rank-page>
         </div>
       `;
   }
 }
 customElements.define("main-menu", Main);
-customElements.define("top-bar", Top);
