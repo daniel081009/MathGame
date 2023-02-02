@@ -1,6 +1,5 @@
 import { LitElement, html } from "lit-element";
 
-const BaseURL = "http://localhost:8080";
 class GameList extends LitElement {
   constructor() {
     super();
@@ -16,9 +15,12 @@ class GameList extends LitElement {
   async gamelistitemclick(data) {
     this.game_pro_item_arr = [];
 
-    let res = await axios.get(`${BaseURL}/game/get/${data.target.id}`, {
-      withCredentials: true,
-    });
+    let res = await axios.get(
+      `${process.env.ServerURL}/game/get/${data.target.id}`,
+      {
+        withCredentials: true,
+      }
+    );
     for (let data of res.data.data.TLog) {
       let class_name = "no";
       if (

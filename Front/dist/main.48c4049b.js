@@ -20836,7 +20836,7 @@ var GameMain = /*#__PURE__*/function (_LitElement) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return axios.post("http://localhost:8080/game/end", {
+                return axios.post("." + "/game/end", {
                   id: this.gmae_id,
                   tlog: this.history
                 }, {
@@ -22333,6 +22333,7 @@ var Chartd = /*#__PURE__*/function (_LitElement) {
 var _default = Chartd;
 exports.default = _default;
 },{"lit-element":"xPSq","react":"HdMw","react-dom/client":"U1bq","chart.js/auto":"HsG1","@uiw/react-heat-map":"Js4K"}],"la8B":[function(require,module,exports) {
+var define;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22359,7 +22360,6 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-var BaseURL = "http://localhost:8080";
 var GameList = /*#__PURE__*/function (_LitElement) {
   _inherits(GameList, _LitElement);
   var _super = _createSuper(GameList);
@@ -22406,7 +22406,7 @@ var GameList = /*#__PURE__*/function (_LitElement) {
               case 0:
                 this.game_pro_item_arr = [];
                 _context2.next = 3;
-                return axios.get("".concat(BaseURL, "/game/get/").concat(data.target.id), {
+                return axios.get("".concat(".", "/game/get/").concat(data.target.id), {
                   withCredentials: true
                 });
               case 3:
@@ -22894,4 +22894,4 @@ var Main = /*#__PURE__*/function (_LitElement) {
 exports.Main = Main;
 customElements.define("main-menu", Main);
 },{"lit-element":"xPSq","./page/userauth":"UOkm","./page/game":"UOpA","./page/dashboard/dashboard":"Y1B2","./page/ranking":"IxpV"}]},{},["HJDO"], null)
-//# sourceMappingURL=/main.42d8a9e7.js.map
+//# sourceMappingURL=/main.48c4049b.js.map
