@@ -337,7 +337,7 @@ export class GameMain extends LitElement {
   }
   async game_end() {
     let data = await axios.post(
-      "http://localhost:8080/game/end",
+      process.env.ServerURL + "/game/end",
       {
         id: this.gmae_id,
         tlog: this.history,
