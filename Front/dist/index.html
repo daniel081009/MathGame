@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>MathGame</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/main.42d8a9e7.js"></script>
+
+    <!-- <link rel="manifest" href="/manifest.json" /> -->
+  <meta name="msapplication-config" content="/browserconfig.xml"><meta name="theme-color" content="#382d22"><link rel="icon" sizes="32x32" href="/favicon-32x32.e4301fe0.png"><link rel="icon" sizes="16x16" href="/favicon-16x16.f11d22f4.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.e27fc56d.png"><link rel="manifest" href="/manifest.webmanifest"><link rel="stylesheet" href="/main.1a029b01.css"></head>
+  <body>
+    <main-menu></main-menu>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/workbox-sw/6.5.4/workbox-sw.js" integrity="sha512-67SvZhe5uoMrETb1EY+36lHSWb1tm00s2hGltpC8vN8OfepOJ3FXdhr5H6pW+SJLgo42pP329a68HwpbahPU5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>document.cookie = "crossCookie=bar; SameSite=None; Secure";
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    var prefix = location.pathname.replace(/\/(index\.html)?$/, "");
+    navigator.serviceWorker.register("".concat(prefix, "/sw.js")).then(function (registration) {
+      console.log("[success]");
+    }, function (err) {
+      console.log("[fail]: ", err);
+    });
+  });
+}</script>
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-K7V231Q5S9"></script>
+  <script>window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+}
+gtag("js", new Date());
+gtag("config", "G-K7V231Q5S9");</script>
+  <style>body {
+      margin: 0;
+    }
+
+    #main {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+    }
+    game-main {
+      /* margin-top: 15vh; */
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .main {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 7vh;
+    }
+
+    #blockwow {
+      height: 15vh;
+    }</style>
+</html>

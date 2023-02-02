@@ -63,13 +63,7 @@ class Chartd extends LitElement {
         const rootElement = document.getElementById("root");
         const root = createRoot(rootElement);
 
-        root.render(
-          <App
-            callback={() => {
-              console.log("renderered");
-            }}
-          />
-        );
+        root.render(<App />);
         clearTimeout(d);
 
         let arr = [0, 0, 0, 0, 0];

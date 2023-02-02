@@ -15,7 +15,6 @@ class GameList extends LitElement {
   }
   async gamelistitemclick(data) {
     this.game_pro_item_arr = [];
-    console.log("click");
 
     let res = await axios.get(`${BaseURL}/game/get/${data.target.id}`, {
       withCredentials: true,

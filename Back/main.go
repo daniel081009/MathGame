@@ -8,17 +8,18 @@ import (
 	"MathGame/util"
 	"log"
 
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/acme/autocert"
 )
 
 func main() {
-	// gin.SetMode(gin.ReleaseMode)
-	r := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
+	main := gin.Default()
 
-	r.Use(func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:1234")
+	main.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -28,10 +29,13 @@ func main() {
 		}
 		c.Next()
 	})
-	User_api := r.Group("/user")
+
+	main.Use(static.Serve("/", static.LocalFile("../Front/dist", false)))
+
+	User_api := main.Group("/user")
 	User.Route(User_api)
 
-	r.Use(func(ctx *gin.Context) {
+	Game_api := main.Group("/game", func(ctx *gin.Context) {
 		Token, err := ctx.Cookie("Token")
 		if util.BadReq(err, ctx, "Token not found") != nil {
 			return
@@ -41,18 +45,19 @@ func main() {
 			return
 		}
 	})
-
-	Game_api := r.Group("/game")
 	Game.Route(Game_api)
 
-	Rank := r.Group("/rank")
-	Ranking.Route(Rank)
-
-	r.GET("/", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"message": "OK!",
-		})
+	Rank := main.Group("/rank", func(ctx *gin.Context) {
+		Token, err := ctx.Cookie("Token")
+		if util.BadReq(err, ctx, "Token not found") != nil {
+			return
+		}
+		_, err = DB.GetUsertoToken(Token)
+		if util.BadReq(err, ctx, "Token not found") != nil {
+			return
+		}
 	})
+	Ranking.Route(Rank)
 
 	m := autocert.Manager{
 		Prompt:     autocert.AcceptTOS,
@@ -60,5 +65,6 @@ func main() {
 		Cache:      autocert.DirCache("./certs"),
 	}
 
-	log.Fatal(autotls.RunWithManager(r, &m))
+	log.Fatal(autotls.RunWithManager(main, &m))
+	// main.Run(":8080")
 }

@@ -429,22 +429,17 @@ export class GameMain extends LitElement {
       `;
     }
     let d = setTimeout(() => {
-      console.log(this.game_end_data.data.TLog);
       const chart = new Chart(document.getElementById("test"), {
         type: "line",
         options: {
           interaction: {
             mode: "nearest",
           },
-          onClick: (e) => {
-            const canvasPosition = getRelativePosition(e, chart);
+          // onClick: (e) => {
+          //   const canvasPosition = getRelativePosition(e, chart);
 
-            const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
-            console.log(
-              Math.round(dataX),
-              this.game_end_data.data.TLog[Math.round(dataX)]
-            );
-          },
+          //   const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+          // },
           scales: {
             x: {
               type: "linear",

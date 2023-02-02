@@ -25,7 +25,6 @@ export class dashboard extends LitElement {
       localStorage.removeItem("Token");
       location.reload(true);
       location;
-      console.log(e);
     }
   }
   createRenderRoot() {
@@ -38,7 +37,6 @@ export class dashboard extends LitElement {
       })();
       return html`<div class="chart">로딩중</div>`;
     }
-    console.log(JSON.parse(localStorage.getItem("data")));
 
     return html`
       <div class="dashboard">
