@@ -1,6 +1,7 @@
 import { LitElement, html } from "lit-element";
 import React from "react";
 import { createRoot } from "react-dom/client";
+import Chart from "chart.js/auto";
 import HeatMap from "@uiw/react-heat-map";
 
 class Chartd extends LitElement {
@@ -32,12 +33,11 @@ class Chartd extends LitElement {
         function App() {
           return (
             <HeatMap
+              className="heatmap"
               fontSize={20}
               fontWeight={700}
-              rectSize={15}
+              rectSize={13}
               value={value}
-              width={940}
-              height={300}
               weekLabels={["주일", "월", "화", "수", "목", "금", "토"]}
               monthLabels={[
                 "1월",
@@ -71,19 +71,60 @@ class Chartd extends LitElement {
           />
         );
         clearTimeout(d);
+
+        let arr = [0, 0, 0, 0, 0];
+        for (let key of Object.keys(this.data)) {
+          arr[this.data[key].Setting.type] += 1;
+        }
+        new Chart(document.getElementById("Chart"), {
+          type: "polarArea",
+          data: {
+            labels: ["더하기", "빼기", "나누기", "곱하기", "전부"],
+            datasets: [
+              {
+                label: "My Data",
+                data: arr,
+                backgroundColor: [
+                  "rgb(255, 99, 132)",
+                  "rgb(54, 162, 235)",
+                  "rgb(75, 192, 192)",
+                  "rgb(255, 205, 86)",
+                  "rgb(11, 203, 207)",
+                ],
+              },
+            ],
+          },
+          options: {
+            responsive: false,
+          },
+        });
       }, 10);
-      // const chart = new Chart(document.getElementById("Chart"));
     }
 
     return html`
-      <div id="root"></div>
-      <canvas id="Chart"></canvas>
+      <div class="chartd">
+        <div id="root"></div>
+        <div className="chart">
+          <canvas id="Chart"></canvas>
+        </div>
+      </div>
 
       <style>
         #root {
-          width: 100vw;
           display: flex;
           justify-content: center;
+        }
+        .heatmap {
+          width: 830px;
+          overflow-x: scroll;
+        }
+        .chartd {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .chart {
+          width: 50vw;
         }
       </style>
     `;

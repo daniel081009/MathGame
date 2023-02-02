@@ -1,6 +1,5 @@
 import { LitElement, html } from "lit-element";
-
-const BaseURL = "http://localhost:8080";
+require("dotenv").config();
 
 export class Login extends LitElement {
   constructor() {
@@ -26,7 +25,7 @@ export class Login extends LitElement {
       password: password,
     };
     try {
-      let data = await axios.post(`${BaseURL}/user/login`, req, {
+      let data = await axios.post(`${process.env.ServerURL}/user/login`, req, {
         withCredentials: true,
       });
       if (data.status == 200) {
@@ -54,7 +53,10 @@ export class Login extends LitElement {
       password: password,
     };
     try {
-      let data = await axios.post(`${BaseURL}/user/register`, req);
+      let data = await axios.post(
+        `${process.env.ServerURL}/user/register`,
+        req
+      );
       if (data.status == 200) {
         this.ChangePage(0);
       } else {

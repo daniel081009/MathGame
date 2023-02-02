@@ -6,8 +6,11 @@ import (
 	"MathGame/Route/Ranking"
 	"MathGame/Route/User"
 	"MathGame/util"
+	"log"
 
+	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 func main() {
@@ -51,5 +54,11 @@ func main() {
 		})
 	})
 
-	r.Run()
+	m := autocert.Manager{
+		Prompt:     autocert.AcceptTOS,
+		HostPolicy: autocert.HostWhitelist("math.daoh.dev"),
+		Cache:      autocert.DirCache("./certs"),
+	}
+
+	log.Fatal(autotls.RunWithManager(r, &m))
 }

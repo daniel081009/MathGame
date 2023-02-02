@@ -42,8 +42,7 @@ class GameList extends LitElement {
   }
   render() {
     this.data_arr = Object.keys(this.data).sort(
-      (a, b) =>
-        new Date(this.data[a].StartTime) - new Date(this.data[b].StartTime)
+      (a, b) => new Date(this.data[a].EndTime) - new Date(this.data[b].EndTime)
     ); // 날짜순으로 정렬 (내림차순)
     this.data_arr = this.data_arr.reverse(); // 날짜순으로 정렬 (오름차순)
 
@@ -61,6 +60,7 @@ class GameList extends LitElement {
           <th id=${key}>
             ${new Date(this.data[key].EndTime).toLocaleString()}
           </th>
+          <th id=${key}>${this.data[key].Setting.rankgame}</th>
           <th id=${key}>${text(this.data[key].EndGame)}</th>
         </tr>
       `);
@@ -74,6 +74,7 @@ class GameList extends LitElement {
               <th>Id</th>
               <th>Score</th>
               <th>Date</th>
+              <th>RankGame</th>
               <th>State</th>
             </tr>
             ${game_list_arr}
@@ -81,7 +82,7 @@ class GameList extends LitElement {
         </div>
         <div class="game-pro">
           <table>
-            <tr>
+            <tr class="gamelist">
               <th>Problem</th>
               <th>Answer</th>
               <th>User_Answer</th>
@@ -100,7 +101,7 @@ class GameList extends LitElement {
         .game-list {
           width: 60vw;
           height: 30vh;
-          border: 0.4vw solid black;
+          /* border: 0.4vw solid black; */
           border-radius: 1vw;
           overflow: auto;
           margin: 1vw;
@@ -157,7 +158,7 @@ class GameList extends LitElement {
           width: 40vw;
           height: 30vh;
 
-          border: 0.4vw solid black;
+          /* border: 0.4vw solid black; */
           border-radius: 1vw;
           overflow: auto;
           margin: 1vw;

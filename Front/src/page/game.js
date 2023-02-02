@@ -1,8 +1,8 @@
 import { LitElement, html } from "lit-element";
 import Chart from "chart.js/auto";
 import { getRelativePosition } from "chart.js/helpers";
+require("dotenv").config();
 
-const BaseURL = "http://localhost:8080";
 export class GameMain extends LitElement {
   init() {
     // 0: menu, 1: game ,2: End
@@ -36,9 +36,13 @@ export class GameMain extends LitElement {
 
   async Start_System(game_setting) {
     this.game_setting = game_setting;
-    let data = await axios.post(BaseURL + "/game/create", this.game_setting, {
-      withCredentials: true,
-    });
+    let data = await axios.post(
+      process.env.ServerURL + "/game/create",
+      this.game_setting,
+      {
+        withCredentials: true,
+      }
+    );
     this.problem = data.data.problem;
     this.gmae_id = data.data.ID;
 
@@ -78,11 +82,16 @@ export class GameMain extends LitElement {
       type: Number(ri.value),
       runningTime: Number(ti.value),
       level: Number(le.value),
+      rankgame: document.getElementById("check1").checked,
     });
   }
   setting() {
     return html`
       <div class="container">
+        <div class="inputcon">
+          <input class="input" type="checkbox" id="check1" />
+          <label for="check1">Rank</label>
+        </div>
         <fieldset>
           <label class="item">
             <input
@@ -212,8 +221,35 @@ export class GameMain extends LitElement {
           </label>
         </fieldset>
       </div>
+
       <button @click=${this.Start} class="start">start</button>
       <style>
+        .inputcon {
+          margin-top: 0.2vh;
+          width: 90%;
+          display: flex;
+          justify-content: right;
+        }
+        .input[type="checkbox"] {
+          display: none;
+        }
+        .input[type="checkbox"] + label {
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          border: 3px solid #707070;
+          position: relative;
+        }
+        .input[id="check1"]:checked + label::after {
+          content: "✔";
+          font-size: 25px;
+          width: 30px;
+          height: 30px;
+          text-align: center;
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
         .container {
           display: flex;
           align-items: center;

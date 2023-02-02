@@ -53,7 +53,6 @@ export class Main extends LitElement {
               @click=${() => {
                 this.page = 3;
                 this.requestUpdate();
-                // TODO : 랭킹 페이지
               }}
             >
               Ranking
@@ -127,7 +126,7 @@ export class Main extends LitElement {
     `;
   }
   render() {
-    // this.page = 2;
+    // this.page = 3;
     if (this.page == 0) return html` <login-page></login-page>`;
     else if (this.page == 1)
       return html`
@@ -159,6 +158,13 @@ export class Main extends LitElement {
         <div class="main">
           ${this.top()}
           <rank-page></rank-page>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
         </div>
       `;
   }

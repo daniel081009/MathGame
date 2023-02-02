@@ -84,19 +84,9 @@ func Route(Game_api *gin.RouterGroup) {
 		if util.BadReq(err, ctx, "Game Load Err") != nil {
 			return
 		}
-		temp := map[string]struct {
-			Id      string
-			Score   int
-			EndTime time.Time
-			EndGame int
-		}{}
+		temp := map[string]System.Game{}
 		for _, v := range data {
-			temp[v.Id] = struct {
-				Id      string
-				Score   int
-				EndTime time.Time
-				EndGame int
-			}{v.Id, v.Score, v.EndTime, v.EndGame}
+			temp[v.Id] = v
 		}
 
 		ctx.JSON(200, gin.H{

@@ -1,8 +1,9 @@
 import { LitElement, html } from "lit-element";
 import Chartd from "./dashboard-chart";
 import GameList from "./dashboard-gamelist";
+import Problem from "./dashboard-problem";
+require("dotenv").config();
 
-const BaseURL = "http://localhost:8080";
 export class dashboard extends LitElement {
   constructor() {
     super();
@@ -12,7 +13,7 @@ export class dashboard extends LitElement {
 
   async getdata() {
     try {
-      let res = await axios.get(`${BaseURL}/game/get`, {
+      let res = await axios.get(`${process.env.ServerURL}/game/get`, {
         withCredentials: true,
       });
       this.data = res.data.data;
@@ -44,6 +45,7 @@ export class dashboard extends LitElement {
         <div class="toptop">${localStorage.getItem("username")}</div>
         <dashboard-gamelist></dashboard-gamelist>
         <dashboard-chart></dashboard-chart>
+        <dashboard-problem></dashboard-problem>
       </div>
       <style>
         .toptop {
@@ -78,6 +80,7 @@ export class dashboard extends LitElement {
   }
 }
 
+customElements.define("dashboard-problem", Problem);
 customElements.define("dashboard-chart", Chartd);
 customElements.define("dashboard-gamelist", GameList);
 customElements.define("dashboard-page", dashboard);
