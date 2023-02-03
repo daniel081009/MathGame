@@ -36,7 +36,7 @@ class Chartd extends LitElement {
               className="heatmap"
               fontSize={20}
               fontWeight={700}
-              rectSize={13}
+              rectSize={10}
               value={value}
               weekLabels={["주일", "월", "화", "수", "목", "금", "토"]}
               monthLabels={[
@@ -97,7 +97,7 @@ class Chartd extends LitElement {
 
     return html`
       <div class="chartd">
-        <div id="root"></div>
+        <div id="root" class="heatmap"></div>
         <div className="chart">
           <canvas id="Chart"></canvas>
         </div>
@@ -105,11 +105,12 @@ class Chartd extends LitElement {
 
       <style>
         #root {
+          width: 70vw;
           display: flex;
           justify-content: center;
         }
         .heatmap {
-          width: 830px;
+          width: 750px;
           overflow-x: scroll;
         }
         .chartd {

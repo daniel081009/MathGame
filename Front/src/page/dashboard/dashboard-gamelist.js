@@ -96,12 +96,13 @@ class GameList extends LitElement {
         .game {
           width: 100vw;
           display: flex;
+          flex-flow: column;
           align-items: center;
           gap: 3vw;
         }
         .game-list {
-          width: 60vw;
-          height: 30vh;
+          width: 100vw;
+          height: 10vh;
           /* border: 0.4vw solid black; */
           border-radius: 1vw;
           overflow: auto;
@@ -156,8 +157,8 @@ class GameList extends LitElement {
           background-color: #e6e6e6;
         }
         .game-pro {
-          width: 40vw;
-          height: 30vh;
+          width: 100vw;
+          height: min-content;
 
           /* border: 0.4vw solid black; */
           border-radius: 1vw;

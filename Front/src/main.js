@@ -3,6 +3,7 @@ import "./page/userauth";
 import "./page/game";
 import "./page/dashboard/dashboard";
 import "./page/ranking";
+require("dotenv").config();
 
 function CheckToken() {
   if (localStorage.getItem("Token") == null) {
@@ -18,6 +19,7 @@ export class Main extends LitElement {
     super();
     if (!CheckToken()) this.page = 0;
     else this.page = 1;
+    console.log(process.env.ServerURL);
   }
   createRenderRoot() {
     return this;

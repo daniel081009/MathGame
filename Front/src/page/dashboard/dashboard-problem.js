@@ -64,15 +64,18 @@ export default class problem extends LitElement {
         </div>
         <style>
           th {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
           }
           .ll {
+            width: 100vw;
             display: flex;
             flex-direction: column;
             align-items: center;
           }
           .problem {
+            width: 100vw;
             display: flex;
+            flex-direction: column;
             justify-content: space-around;
             gap: 5vw;
           }
@@ -82,7 +85,7 @@ export default class problem extends LitElement {
             border: 0;
           }
           table {
-            width: 45vw;
+            width: 100vw;
             height: 30vh;
             overflow: auto;
             border-top: 1px solid #444444;

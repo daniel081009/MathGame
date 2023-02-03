@@ -4407,7 +4407,7 @@ var Login = /*#__PURE__*/function (_LitElement) {
                 };
                 _context.prev = 3;
                 _context.next = 6;
-                return axios.post("".concat(".", "/user/login"), req, {
+                return axios.post("".concat("http://localhost:8080", "/user/login"), req, {
                   withCredentials: true
                 });
               case 6:
@@ -4461,7 +4461,7 @@ var Login = /*#__PURE__*/function (_LitElement) {
                 };
                 _context2.prev = 7;
                 _context2.next = 10;
-                return axios.post("".concat(".", "/user/register"), req);
+                return axios.post("".concat("http://localhost:8080", "/user/register"), req);
               case 10:
                 data = _context2.sent;
                 if (data.status == 200) {
@@ -4503,7 +4503,7 @@ var Login = /*#__PURE__*/function (_LitElement) {
   }, {
     key: "css",
     value: function css() {
-      return (0, _litElement.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n      <style>\n        body {\n          background: #60c3f0;\n          font-family: \"Roboto\", sans-serif;\n        }\n\n        .login-box {\n          margin-top: 75px;\n          height: auto;\n          background: #1a2226;\n          text-align: center;\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),\n            0 3px 6px rgba(0, 0, 0, 0.23);\n        }\n\n        .login-key {\n          height: 100px;\n          font-size: 80px;\n          line-height: 100px;\n          background: -webkit-linear-gradient(#27ef9f, #0db8de);\n          -webkit-background-clip: text;\n          -webkit-text-fill-color: transparent;\n        }\n\n        .login-title {\n          margin-top: 15px;\n          text-align: center;\n          font-size: 30px;\n          letter-spacing: 2px;\n          margin-top: 15px;\n          font-weight: bold;\n          color: #ecf0f5;\n        }\n\n        .login-form {\n          margin-top: 25px;\n          text-align: left;\n        }\n\n        input[type=\"text\"] {\n          background-color: #1a2226;\n          border: none;\n          border-bottom: 2px solid #0db8de;\n          border-top: 0px;\n          border-radius: 0px;\n          font-weight: bold;\n          outline: 0;\n          margin-bottom: 20px;\n          padding-left: 0px;\n          color: #ecf0f5;\n        }\n\n        input[type=\"password\"] {\n          background-color: #1a2226;\n          border: none;\n          border-bottom: 2px solid #0db8de;\n          border-top: 0px;\n          border-radius: 0px;\n          font-weight: bold;\n          outline: 0;\n          padding-left: 0px;\n          margin-bottom: 20px;\n          color: #ecf0f5;\n        }\n\n        .form-group {\n          margin-bottom: 40px;\n          outline: 0px;\n        }\n\n        .form-control:focus {\n          border-color: inherit;\n          -webkit-box-shadow: none;\n          box-shadow: none;\n          border-bottom: 2px solid #0db8de;\n          outline: 0;\n          background-color: #1a2226;\n          color: #ecf0f5;\n        }\n\n        input:focus {\n          outline: none;\n          box-shadow: 0 0 0;\n        }\n\n        label {\n          margin-bottom: 0px;\n        }\n\n        .form-control-label {\n          font-size: 10px;\n          color: #6c6c6c;\n          font-weight: bold;\n          letter-spacing: 1px;\n        }\n\n        .btn-outline-primary {\n          border-color: #0db8de;\n          color: #0db8de;\n          border-radius: 0px;\n          font-weight: bold;\n          letter-spacing: 1px;\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),\n            0 1px 2px rgba(0, 0, 0, 0.24);\n        }\n\n        .btn-outline-primary:hover {\n          background-color: #0db8de;\n          right: 0px;\n        }\n\n        .login-btm {\n          float: left;\n        }\n\n        .login-button {\n          padding-right: 0px;\n          text-align: right;\n          margin-bottom: 25px;\n        }\n\n        .login-text {\n          text-align: left;\n          padding-left: 0px;\n          color: #a2a4a4;\n        }\n\n        .loginbttm {\n          padding: 0px;\n        }\n      </style>\n    "])));
+      return (0, _litElement.html)(_templateObject3 || (_templateObject3 = _taggedTemplateLiteral(["\n      <style>\n        body {\n          background: #60c3f0;\n          font-family: \"Roboto\", sans-serif;\n        }\n\n        .login-box {\n          margin-top: 75px;\n          height: auto;\n          background: #1a2226;\n          text-align: center;\n          box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),\n            0 3px 6px rgba(0, 0, 0, 0.23);\n        }\n\n        .login-key {\n          height: 100px;\n          font-size: 80px;\n          line-height: 100px;\n          background: -webkit-linear-gradient(#27ef9f, #0db8de);\n          -webkit-background-clip: text;\n          -webkit-text-fill-color: transparent;\n        }\n\n        .login-title {\n          margin-top: 15px;\n          text-align: center;\n          font-size: 30px;\n          letter-spacing: 2px;\n          margin-top: 15px;\n          font-weight: bold;\n          color: #ecf0f5;\n        }\n\n        .login-form {\n          margin-top: 25px;\n          text-align: left;\n        }\n\n        input[type=\"text\"] {\n          background-color: #1a2226;\n          border: none;\n          border-bottom: 2px solid #0db8de;\n          border-top: 0px;\n          border-radius: 0px;\n          font-weight: bold;\n          outline: 0;\n          margin-bottom: 20px;\n          padding-left: 0px;\n          color: #ecf0f5;\n        }\n\n        input[type=\"password\"] {\n          background-color: #1a2226;\n          border: none;\n          border-bottom: 2px solid #0db8de;\n          border-top: 0px;\n          border-radius: 0px;\n          font-weight: bold;\n          outline: 0;\n          padding-left: 0px;\n          margin-bottom: 20px;\n          color: #ecf0f5;\n        }\n\n        .form-group {\n          margin-bottom: 40px;\n          outline: 0px;\n        }\n\n        .form-control:focus {\n          border-color: inherit;\n          -webkit-box-shadow: none;\n          box-shadow: none;\n          border-bottom: 2px solid #0db8de;\n          outline: 0;\n          background-color: #1a2226;\n          color: #ecf0f5;\n        }\n\n        input:focus {\n          outline: none;\n          box-shadow: 0 0 0;\n        }\n\n        label {\n          margin-bottom: 0px;\n        }\n\n        .form-control-label {\n          font-size: 10px;\n          color: #6c6c6c;\n          font-weight: bold;\n          letter-spacing: 1px;\n        }\n\n        .btn-outline-primary {\n          border-color: #0db8de;\n          color: #0db8de;\n          border-radius: 0px;\n          font-weight: bold;\n          letter-spacing: 1px;\n          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),\n            0 1px 2px rgba(0, 0, 0, 0.24);\n        }\n\n        .btn-outline-primary:hover {\n          background-color: #0db8de;\n          right: 0px;\n        }\n\n        .login-btm {\n          float: left;\n        }\n\n        .login-button {\n          padding-right: 0px;\n          text-align: right;\n          margin-bottom: 25px;\n        }\n\n        .login-text {\n          text-align: left;\n          padding-left: 0px;\n          color: #a2a4a4;\n        }\n\n        .loginbttm {\n          padding: 0px;\n        }\n        @media (min-width: 425px) {\n          .login-box {\n            font-size: 5rem;\n            width: 100vw;\n          }\n          .login-text {\n            font-size: 1rem;\n          }\n        }\n      </style>\n    "])));
     }
   }, {
     key: "render",
@@ -19856,758 +19856,7 @@ Object.keys(_chart).forEach(function (key) {
 _chart.Chart.register(..._chart.registerables);
 var _default = _chart.Chart;
 exports.default = _default;
-},{"../dist/chart.js":"xyFF"}],"gJOT":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "HALF_PI", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.H;
-  }
-});
-Object.defineProperty(exports, "INFINITY", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b2;
-  }
-});
-Object.defineProperty(exports, "PI", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.P;
-  }
-});
-Object.defineProperty(exports, "PITAU", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b1;
-  }
-});
-Object.defineProperty(exports, "QUARTER_PI", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b4;
-  }
-});
-Object.defineProperty(exports, "RAD_PER_DEG", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b3;
-  }
-});
-Object.defineProperty(exports, "TAU", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.T;
-  }
-});
-Object.defineProperty(exports, "TWO_THIRDS_PI", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b5;
-  }
-});
-Object.defineProperty(exports, "_addGrace", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.R;
-  }
-});
-Object.defineProperty(exports, "_alignPixel", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.X;
-  }
-});
-Object.defineProperty(exports, "_alignStartEnd", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a2;
-  }
-});
-Object.defineProperty(exports, "_angleBetween", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.p;
-  }
-});
-Object.defineProperty(exports, "_angleDiff", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b6;
-  }
-});
-Object.defineProperty(exports, "_arrayUnique", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment._;
-  }
-});
-Object.defineProperty(exports, "_attachContext", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a8;
-  }
-});
-Object.defineProperty(exports, "_bezierCurveTo", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.as;
-  }
-});
-Object.defineProperty(exports, "_bezierInterpolation", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ap;
-  }
-});
-Object.defineProperty(exports, "_boundSegment", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ax;
-  }
-});
-Object.defineProperty(exports, "_boundSegments", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.an;
-  }
-});
-Object.defineProperty(exports, "_capitalize", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a5;
-  }
-});
-Object.defineProperty(exports, "_computeSegments", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.am;
-  }
-});
-Object.defineProperty(exports, "_createResolver", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a9;
-  }
-});
-Object.defineProperty(exports, "_decimalPlaces", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aK;
-  }
-});
-Object.defineProperty(exports, "_deprecated", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aV;
-  }
-});
-Object.defineProperty(exports, "_descriptors", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aa;
-  }
-});
-Object.defineProperty(exports, "_elementsEqual", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ah;
-  }
-});
-Object.defineProperty(exports, "_factorize", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.N;
-  }
-});
-Object.defineProperty(exports, "_filterBetween", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aO;
-  }
-});
-Object.defineProperty(exports, "_getParentNode", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.I;
-  }
-});
-Object.defineProperty(exports, "_getStartAndCountOfVisiblePoints", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.q;
-  }
-});
-Object.defineProperty(exports, "_int16Range", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.W;
-  }
-});
-Object.defineProperty(exports, "_isBetween", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aj;
-  }
-});
-Object.defineProperty(exports, "_isClickEvent", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ai;
-  }
-});
-Object.defineProperty(exports, "_isDomSupported", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.M;
-  }
-});
-Object.defineProperty(exports, "_isPointInArea", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.C;
-  }
-});
-Object.defineProperty(exports, "_limitValue", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.S;
-  }
-});
-Object.defineProperty(exports, "_longestText", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aN;
-  }
-});
-Object.defineProperty(exports, "_lookup", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aP;
-  }
-});
-Object.defineProperty(exports, "_lookupByKey", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.B;
-  }
-});
-Object.defineProperty(exports, "_measureText", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.V;
-  }
-});
-Object.defineProperty(exports, "_merger", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aT;
-  }
-});
-Object.defineProperty(exports, "_mergerIf", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aU;
-  }
-});
-Object.defineProperty(exports, "_normalizeAngle", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ay;
-  }
-});
-Object.defineProperty(exports, "_parseObjectDataRadialScale", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.y;
-  }
-});
-Object.defineProperty(exports, "_pointInLine", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aq;
-  }
-});
-Object.defineProperty(exports, "_readValueToProps", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ak;
-  }
-});
-Object.defineProperty(exports, "_rlookupByKey", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.A;
-  }
-});
-Object.defineProperty(exports, "_scaleRangesChanged", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.w;
-  }
-});
-Object.defineProperty(exports, "_setMinAndMaxByKey", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aG;
-  }
-});
-Object.defineProperty(exports, "_splitKey", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aW;
-  }
-});
-Object.defineProperty(exports, "_steppedInterpolation", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ao;
-  }
-});
-Object.defineProperty(exports, "_steppedLineTo", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ar;
-  }
-});
-Object.defineProperty(exports, "_textX", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aB;
-  }
-});
-Object.defineProperty(exports, "_toLeftRightCenter", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a1;
-  }
-});
-Object.defineProperty(exports, "_updateBezierControlPoints", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.al;
-  }
-});
-Object.defineProperty(exports, "addRoundedRectPath", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.au;
-  }
-});
-Object.defineProperty(exports, "almostEquals", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aJ;
-  }
-});
-Object.defineProperty(exports, "almostWhole", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aI;
-  }
-});
-Object.defineProperty(exports, "callback", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.Q;
-  }
-});
-Object.defineProperty(exports, "clearCanvas", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.af;
-  }
-});
-Object.defineProperty(exports, "clipArea", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.Y;
-  }
-});
-Object.defineProperty(exports, "clone", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aS;
-  }
-});
-Object.defineProperty(exports, "color", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.c;
-  }
-});
-Object.defineProperty(exports, "createContext", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.j;
-  }
-});
-Object.defineProperty(exports, "debounce", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ad;
-  }
-});
-Object.defineProperty(exports, "defined", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.h;
-  }
-});
-Object.defineProperty(exports, "distanceBetweenPoints", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aE;
-  }
-});
-Object.defineProperty(exports, "drawPoint", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.at;
-  }
-});
-Object.defineProperty(exports, "drawPointLegend", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aD;
-  }
-});
-Object.defineProperty(exports, "each", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.F;
-  }
-});
-Object.defineProperty(exports, "easingEffects", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.e;
-  }
-});
-Object.defineProperty(exports, "finiteOrDefault", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.O;
-  }
-});
-Object.defineProperty(exports, "fontString", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a$;
-  }
-});
-Object.defineProperty(exports, "formatNumber", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.o;
-  }
-});
-Object.defineProperty(exports, "getAngleFromPoint", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.D;
-  }
-});
-Object.defineProperty(exports, "getHoverColor", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aR;
-  }
-});
-Object.defineProperty(exports, "getMaximumSize", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.G;
-  }
-});
-Object.defineProperty(exports, "getRelativePosition", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.z;
-  }
-});
-Object.defineProperty(exports, "getRtlAdapter", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.az;
-  }
-});
-Object.defineProperty(exports, "getStyle", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a_;
-  }
-});
-Object.defineProperty(exports, "isArray", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b;
-  }
-});
-Object.defineProperty(exports, "isFinite", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.g;
-  }
-});
-Object.defineProperty(exports, "isFunction", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a7;
-  }
-});
-Object.defineProperty(exports, "isNullOrUndef", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.k;
-  }
-});
-Object.defineProperty(exports, "isNumber", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.x;
-  }
-});
-Object.defineProperty(exports, "isObject", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.i;
-  }
-});
-Object.defineProperty(exports, "isPatternOrGradient", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aQ;
-  }
-});
-Object.defineProperty(exports, "listenArrayEvents", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.l;
-  }
-});
-Object.defineProperty(exports, "log10", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aM;
-  }
-});
-Object.defineProperty(exports, "merge", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a4;
-  }
-});
-Object.defineProperty(exports, "mergeIf", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ab;
-  }
-});
-Object.defineProperty(exports, "niceNum", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aH;
-  }
-});
-Object.defineProperty(exports, "noop", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aF;
-  }
-});
-Object.defineProperty(exports, "overrideTextDirection", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aA;
-  }
-});
-Object.defineProperty(exports, "readUsedSize", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.J;
-  }
-});
-Object.defineProperty(exports, "renderText", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.Z;
-  }
-});
-Object.defineProperty(exports, "requestAnimFrame", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.r;
-  }
-});
-Object.defineProperty(exports, "resolve", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a;
-  }
-});
-Object.defineProperty(exports, "resolveObjectKey", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.f;
-  }
-});
-Object.defineProperty(exports, "restoreTextDirection", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aC;
-  }
-});
-Object.defineProperty(exports, "retinaScale", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ae;
-  }
-});
-Object.defineProperty(exports, "setsEqual", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ag;
-  }
-});
-Object.defineProperty(exports, "sign", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.s;
-  }
-});
-Object.defineProperty(exports, "splineCurve", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aY;
-  }
-});
-Object.defineProperty(exports, "splineCurveMonotone", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aZ;
-  }
-});
-Object.defineProperty(exports, "supportsEventListenerOptions", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.K;
-  }
-});
-Object.defineProperty(exports, "throttled", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.L;
-  }
-});
-Object.defineProperty(exports, "toDegrees", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.U;
-  }
-});
-Object.defineProperty(exports, "toDimension", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.n;
-  }
-});
-Object.defineProperty(exports, "toFont", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.a0;
-  }
-});
-Object.defineProperty(exports, "toFontString", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aX;
-  }
-});
-Object.defineProperty(exports, "toLineHeight", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.b0;
-  }
-});
-Object.defineProperty(exports, "toPadding", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.E;
-  }
-});
-Object.defineProperty(exports, "toPercentage", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.m;
-  }
-});
-Object.defineProperty(exports, "toRadians", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.t;
-  }
-});
-Object.defineProperty(exports, "toTRBL", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.av;
-  }
-});
-Object.defineProperty(exports, "toTRBLCorners", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.aw;
-  }
-});
-Object.defineProperty(exports, "uid", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.ac;
-  }
-});
-Object.defineProperty(exports, "unclipArea", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.$;
-  }
-});
-Object.defineProperty(exports, "unlistenArrayEvents", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.u;
-  }
-});
-Object.defineProperty(exports, "valueOrDefault", {
-  enumerable: true,
-  get: function () {
-    return _helpersSegment.v;
-  }
-});
-var _helpersSegment = require("./chunks/helpers.segment.js");
-require("@kurkle/color");
-},{"./chunks/helpers.segment.js":"WCF5","@kurkle/color":"ryuk"}],"DA1C":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var _helpers = require("../dist/helpers.js");
-Object.keys(_helpers).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _helpers[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _helpers[key];
-    }
-  });
-});
-},{"../dist/helpers.js":"gJOT"}],"UOpA":[function(require,module,exports) {
+},{"../dist/chart.js":"xyFF"}],"UOpA":[function(require,module,exports) {
 var define;
 "use strict";
 
@@ -20617,7 +19866,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.GameMain = void 0;
 var _litElement = require("lit-element");
 var _auto = _interopRequireDefault(require("chart.js/auto"));
-var _helpers = require("chart.js/helpers");
 var _templateObject, _templateObject2, _templateObject3, _templateObject4, _templateObject5, _templateObject6, _templateObject7;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
@@ -20705,7 +19953,7 @@ var GameMain = /*#__PURE__*/function (_LitElement) {
               case 0:
                 this.game_setting = game_setting;
                 _context3.next = 3;
-                return axios.post("." + "/game/create", this.game_setting, {
+                return axios.post("http://localhost:8080" + "/game/create", this.game_setting, {
                   withCredentials: true
                 });
               case 3:
@@ -20798,7 +20046,7 @@ var GameMain = /*#__PURE__*/function (_LitElement) {
   }, {
     key: "setting",
     value: function setting() {
-      return (0, _litElement.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <div class=\"container\">\n        <div class=\"inputcon\">\n          <input class=\"input\" type=\"checkbox\" id=\"check1\" />\n          <label for=\"check1\">Rank</label>\n        </div>\n        <fieldset>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"0\"\n            />\n            <label for=\"huey\">+</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"1\"\n            />\n            <label for=\"huey\">-</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"2\"\n            />\n            <label for=\"huey\">\u2715</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"3\"\n            />\n            <label for=\"huey\">\xF7</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"4\"\n            />\n            <label for=\"huey\">ALL</label>\n          </label>\n        </fieldset>\n\n        <fieldset>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"le\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"0\"\n            />\n            <label for=\"huey\">0~10</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"le\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"1\"\n            />\n            <label for=\"huey\">0~20</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"le\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"2\"\n            />\n            <label for=\"huey\">0~50</label>\n          </label>\n        </fieldset>\n\n        <fieldset>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"30\"\n            />\n            <label for=\"huey\">30s</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"60\"\n            />\n            <label for=\"huey\">1m</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"180\"\n            />\n            <label for=\"huey\">3m</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"3000\"\n            />\n            <label for=\"huey\">5m</label>\n          </label>\n        </fieldset>\n      </div>\n\n      <button @click=", " class=\"start\">start</button>\n      <style>\n        .inputcon {\n          margin-top: 0.2vh;\n          width: 90%;\n          display: flex;\n          justify-content: right;\n        }\n        .input[type=\"checkbox\"] {\n          display: none;\n        }\n        .input[type=\"checkbox\"] + label {\n          display: inline-block;\n          width: 30px;\n          height: 30px;\n          border: 3px solid #707070;\n          position: relative;\n        }\n        .input[id=\"check1\"]:checked + label::after {\n          content: \"\u2714\";\n          font-size: 25px;\n          width: 30px;\n          height: 30px;\n          text-align: center;\n          position: absolute;\n          left: 0;\n          top: 0;\n        }\n        .container {\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          flex-direction: column;\n          border: 0.6vh solid rgb(61, 61, 61);\n          border-radius: 5vh;\n        }\n        .item {\n          display: flex;\n          margin-left: 1rem;\n          text-align: center;\n          justify-content: center;\n        }\n        fieldset {\n          width: 100%;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          border: none;\n          font-size: 3rem;\n        }\n        .start {\n          font-size: 2.5rem;\n          font-weight: 300;\n          margin: 0;\n          padding: 0;\n          margin-top: 1rem;\n          cursor: pointer;\n          transition: all 0.2s ease-in-out;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          width: 15vw;\n          padding-left: 8vw;\n          padding-right: 8vw;\n          border: 0.6vh solid rgb(61, 61, 61);\n          border-radius: 2vh;\n          font-family: \"GmarketSansMedium\";\n          font-weight: 500;\n        }\n        .start:hover {\n          transform: scale(1.1);\n        }\n\n        .item_radio {\n          width: 3vw;\n        }\n        .item_radio:checked + label {\n          color: #2196f3;\n          font-weight: 500;\n        }\n      </style>\n    "])), this.Start);
+      return (0, _litElement.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n      <div class=\"container\">\n        <div class=\"inputcon\">\n          <input class=\"input\" type=\"checkbox\" id=\"check1\" />\n          <label for=\"check1\">Rank</label>\n        </div>\n        <fieldset>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"0\"\n            />\n            <label for=\"huey\">+</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"1\"\n            />\n            <label for=\"huey\">-</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"2\"\n            />\n            <label for=\"huey\">\u2715</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"3\"\n            />\n            <label for=\"huey\">\xF7</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ri\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"4\"\n            />\n            <label for=\"huey\">ALL</label>\n          </label>\n        </fieldset>\n\n        <fieldset>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"le\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"0\"\n            />\n            <label for=\"huey\">0~10</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"le\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"1\"\n            />\n            <label for=\"huey\">0~20</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"le\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"2\"\n            />\n            <label for=\"huey\">0~50</label>\n          </label>\n        </fieldset>\n\n        <fieldset>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"30\"\n            />\n            <label for=\"huey\">30s</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"60\"\n            />\n            <label for=\"huey\">1m</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"180\"\n            />\n            <label for=\"huey\">3m</label>\n          </label>\n          <label class=\"item\">\n            <input\n              type=\"radio\"\n              name=\"ti\"\n              class=\"item_radio\"\n              id=\"huey\"\n              value=\"3000\"\n            />\n            <label for=\"huey\">5m</label>\n          </label>\n        </fieldset>\n      </div>\n\n      <button @click=", " class=\"start\">start</button>\n      <style>\n        .inputcon {\n          margin-top: 0.2vh;\n          width: 90%;\n          display: flex;\n          justify-content: right;\n        }\n        .input[type=\"checkbox\"] {\n          display: none;\n        }\n        .input[type=\"checkbox\"] + label {\n          display: inline-block;\n          width: 30px;\n          height: 30px;\n          border: 3px solid #707070;\n          position: relative;\n        }\n        .input[id=\"check1\"]:checked + label::after {\n          content: \"\u2714\";\n          font-size: 25px;\n          width: 30px;\n          height: 30px;\n          text-align: center;\n          position: absolute;\n          left: 0;\n          top: 0;\n        }\n        .container {\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          flex-direction: column;\n          border: 0.6vh solid rgb(61, 61, 61);\n          border-radius: 5vh;\n        }\n        .item {\n          display: flex;\n          margin-left: 1rem;\n          text-align: center;\n          justify-content: center;\n        }\n        fieldset {\n          width: 100%;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          border: none;\n          font-size: 3rem;\n        }\n        .start {\n          font-size: 2.5rem;\n          font-weight: 300;\n          margin: 0;\n          padding: 0;\n          margin-top: 1rem;\n          cursor: pointer;\n          transition: all 0.2s ease-in-out;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          width: 15vw;\n          padding-left: 8vw;\n          padding-right: 8vw;\n          border: 0.6vh solid rgb(61, 61, 61);\n          border-radius: 2vh;\n          font-family: \"GmarketSansMedium\";\n          font-weight: 500;\n        }\n        .start:hover {\n          transform: scale(1.1);\n        }\n\n        .item_radio {\n          width: 3vw;\n        }\n        .item_radio:checked + label {\n          color: #2196f3;\n          font-weight: 500;\n        }\n        @media screen and (max-width: 425px) {\n          .container {\n            width: 80vw;\n          }\n          .start {\n            font-size: 2rem;\n            width: 20vw;\n            padding-left: 10vw;\n            padding-right: 10vw;\n          }\n          .item_radio {\n            width: 5vw;\n          }\n        }\n      </style>\n    "])), this.Start);
     }
   }, {
     key: "game_enter",
@@ -20836,7 +20084,7 @@ var GameMain = /*#__PURE__*/function (_LitElement) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return axios.post("." + "/game/end", {
+                return axios.post("http://localhost:8080" + "/game/end", {
                   id: this.gmae_id,
                   tlog: this.history
                 }, {
@@ -20961,7 +20209,7 @@ var GameMain = /*#__PURE__*/function (_LitElement) {
 }(_litElement.LitElement);
 exports.GameMain = GameMain;
 customElements.define("game-main", GameMain);
-},{"lit-element":"xPSq","chart.js/auto":"HsG1","chart.js/helpers":"DA1C","dotenv":"Ig2k"}],"pyFg":[function(require,module,exports) {
+},{"lit-element":"xPSq","chart.js/auto":"HsG1","dotenv":"Ig2k"}],"pyFg":[function(require,module,exports) {
 /**
  * @license React
  * react.production.min.js
@@ -22406,7 +21654,7 @@ var GameList = /*#__PURE__*/function (_LitElement) {
               case 0:
                 this.game_pro_item_arr = [];
                 _context2.next = 3;
-                return axios.get("".concat(".", "/game/get/").concat(data.target.id), {
+                return axios.get("".concat("http://localhost:8080", "/game/get/").concat(data.target.id), {
                   withCredentials: true
                 });
               case 3:
@@ -22619,7 +21867,7 @@ var dashboard = /*#__PURE__*/function (_LitElement) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios.get("".concat(".", "/game/get"), {
+                return axios.get("".concat("http://localhost:8080", "/game/get"), {
                   withCredentials: true
                 });
               case 3:
@@ -22730,7 +21978,7 @@ var rank = /*#__PURE__*/function (_LitElement) {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios.get("".concat(".", "/rank/all"), {
+                return axios.get("".concat("http://localhost:8080", "/rank/all"), {
                   withCredentials: true
                 });
               case 3:
@@ -22837,6 +22085,7 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+require("dotenv").config();
 function CheckToken() {
   if (localStorage.getItem("Token") == null) {
     return false;
@@ -22853,6 +22102,7 @@ var Main = /*#__PURE__*/function (_LitElement) {
     _classCallCheck(this, Main);
     _this = _super.call(this);
     if (!CheckToken()) _this.page = 0;else _this.page = 1;
+    console.log("http://localhost:8080");
     return _this;
   }
   _createClass(Main, [{
@@ -22893,5 +22143,5 @@ var Main = /*#__PURE__*/function (_LitElement) {
 }(_litElement.LitElement);
 exports.Main = Main;
 customElements.define("main-menu", Main);
-},{"lit-element":"xPSq","./page/userauth":"UOkm","./page/game":"UOpA","./page/dashboard/dashboard":"Y1B2","./page/ranking":"IxpV"}]},{},["HJDO"], null)
-//# sourceMappingURL=/main.48c4049b.js.map
+},{"lit-element":"xPSq","./page/userauth":"UOkm","./page/game":"UOpA","./page/dashboard/dashboard":"Y1B2","./page/ranking":"IxpV","dotenv":"Ig2k"}]},{},["HJDO"], null)
+//# sourceMappingURL=/main.4aaa3e9d.js.map

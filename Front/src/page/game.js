@@ -1,6 +1,5 @@
 import { LitElement, html } from "lit-element";
 import Chart from "chart.js/auto";
-import { getRelativePosition } from "chart.js/helpers";
 require("dotenv").config();
 
 export class GameMain extends LitElement {
@@ -89,8 +88,9 @@ export class GameMain extends LitElement {
     return html`
       <div class="container">
         <div class="inputcon">
+          Rank
           <input class="input" type="checkbox" id="check1" />
-          <label for="check1">Rank</label>
+          <label for="check1"></label>
         </div>
         <fieldset>
           <label class="item">
@@ -224,27 +224,38 @@ export class GameMain extends LitElement {
 
       <button @click=${this.Start} class="start">start</button>
       <style>
+        body {
+          width: 100vw;
+        }
+        .container {
+          width: 100vw;
+          height: 50vh;
+        }
         .inputcon {
           margin-top: 0.2vh;
           width: 90%;
+          height: min-content;
           display: flex;
           justify-content: right;
+          align-items: center;
+          font-size: 2rem;
         }
         .input[type="checkbox"] {
           display: none;
         }
         .input[type="checkbox"] + label {
           display: inline-block;
-          width: 30px;
-          height: 30px;
+          width: 5vw;
+          height: 5vw;
+          font-size: 2rem;
           border: 3px solid #707070;
           position: relative;
         }
         .input[id="check1"]:checked + label::after {
           content: "✔";
-          font-size: 25px;
-          width: 30px;
-          height: 30px;
+          font-size: 3rem;
+          width: 5vw;
+          height: 5vw;
           text-align: center;
           position: absolute;
           left: 0;
@@ -253,7 +264,7 @@ export class GameMain extends LitElement {
         .container {
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: space-around;
           flex-direction: column;
           border: 0.6vh solid rgb(61, 61, 61);
           border-radius: 5vh;
@@ -263,6 +274,7 @@ export class GameMain extends LitElement {
           margin-left: 1rem;
           text-align: center;
           justify-content: center;
+          font-size: 5rem;
         }
         fieldset {
           width: 100%;
@@ -273,7 +285,8 @@ export class GameMain extends LitElement {
           font-size: 3rem;
         }
         .start {
-          font-size: 2.5rem;
+          width: 50vw;
+          font-size: 4rem;
           font-weight: 300;
           margin: 0;
           padding: 0;
@@ -283,7 +296,6 @@ export class GameMain extends LitElement {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 15vw;
           padding-left: 8vw;
           padding-right: 8vw;
           border: 0.6vh solid rgb(61, 61, 61);
@@ -296,7 +308,7 @@ export class GameMain extends LitElement {
         }
 
         .item_radio {
-          width: 3vw;
+          width: 3vh;
         }
         .item_radio:checked + label {
           color: #2196f3;
@@ -370,7 +382,7 @@ export class GameMain extends LitElement {
       </div>
       <style>
         .container {
-          width: 50vw;
+          width: 100vw;
           height: 50vh;
           display: flex;
           align-items: center;
@@ -380,13 +392,14 @@ export class GameMain extends LitElement {
           border-radius: 5vh;
         }
         #problem {
-          font-size: 10rem;
+          font-size: 15rem;
           font-weight: 300;
           margin: 0;
           padding: 0;
           margin-bottom: 1rem;
         }
         .container > input {
+          width: 50vw;
           font-size: 2rem;
         }
       </style>

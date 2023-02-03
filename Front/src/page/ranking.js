@@ -89,6 +89,9 @@ class rank extends LitElement {
         </div>
       </div>
       <style>
+        h1 {
+          font-size: 5rem;
+        }
         .asdf {
           display: flex;
           flex-flow: column;
@@ -99,7 +102,7 @@ class rank extends LitElement {
           width: 100vw;
           display: grid;
           padding: 1vw;
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: 1fr;
           grid-auto-rows: 1fr;
           gap: 5vw;
         }
@@ -110,6 +113,7 @@ class rank extends LitElement {
           gap: 5vw;
           align-items: center;
           overflow: auto;
+          font-size: 3rem;
         }
         table::-webkit-scrollbar {
           width: 10px;

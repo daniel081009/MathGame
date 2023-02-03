@@ -302,6 +302,15 @@ export class Login extends LitElement {
         .loginbttm {
           padding: 0px;
         }
+        @media (min-width: 425px) {
+          .login-box {
+            font-size: 5rem;
+            width: 100vw;
+          }
+          .login-text {
+            font-size: 1rem;
+          }
+        }
       </style>
     `;
   }
