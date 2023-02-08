@@ -6,9 +6,12 @@ import (
 	"MathGame/Route/Ranking"
 	"MathGame/Route/User"
 	"MathGame/util"
+	"log"
 
 	"github.com/gin-contrib/static"
+	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 func main() {
@@ -56,12 +59,12 @@ func main() {
 	})
 	Ranking.Route(Rank)
 
-	// m := autocert.Manager{
-	// 	Prompt:     autocert.AcceptTOS,
-	// 	HostPolicy: autocert.HostWhitelist("math.daoh.dev"),
-	// 	Cache:      autocert.DirCache("./certs"),
-	// }
+	m := autocert.Manager{
+		Prompt:     autocert.AcceptTOS,
+		HostPolicy: autocert.HostWhitelist("math.daoh.dev"),
+		Cache:      autocert.DirCache("./certs"),
+	}
 
-	// log.Fatal(autotls.RunWithManager(main, &m))
-	main.Run(":8080")
+	log.Fatal(autotls.RunWithManager(main, &m))
+	// main.Run(":8080")
 }
