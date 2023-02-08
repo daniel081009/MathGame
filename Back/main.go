@@ -29,6 +29,9 @@ func main() {
 		}
 		c.Next()
 	})
+	main.GET("/po", func(c *gin.Context) {
+		c.HTML(200, "../Front/dist/po.html", gin.H{})
+	})
 
 	main.Use(static.Serve("/", static.LocalFile("../Front/dist", false)))
 
