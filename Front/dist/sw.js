@@ -8,3 +8,7 @@ workbox.routing.registerRoute(
     cacheName: "all",
   })
 );
+
+self.addEventListener("fetch", function (event) {
+  event.respondWith(fetch(event.request));
+});

@@ -15,7 +15,6 @@ import (
 )
 
 func main() {
-	gin.SetMode(gin.ReleaseMode)
 	main := gin.Default()
 
 	main.Use(func(c *gin.Context) {
@@ -31,6 +30,21 @@ func main() {
 	})
 
 	main.Use(static.Serve("/", static.LocalFile("../Front/dist", false)))
+	main.GET("/check", func(ctx *gin.Context) {
+		Token, err := ctx.Cookie("Token")
+		a := true
+		if util.BadReq(err, ctx, "Token not found") != nil {
+			a = false
+		}
+		_, err = DB.GetUsertoToken(Token)
+		if util.BadReq(err, ctx, "Token not found") != nil {
+			a = false
+		}
+		ctx.JSON(200, gin.H{
+			"server": true,
+			"token":  a,
+		})
+	})
 
 	User_api := main.Group("/user")
 	User.Route(User_api)
@@ -59,12 +73,19 @@ func main() {
 	})
 	Ranking.Route(Rank)
 
-	m := autocert.Manager{
-		Prompt:     autocert.AcceptTOS,
-		HostPolicy: autocert.HostWhitelist("math.daoh.dev"),
-		Cache:      autocert.DirCache("./certs"),
+	dev := true
+
+	if !dev {
+		m := autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist("math.daoh.dev"),
+			Cache:      autocert.DirCache("./certs"),
+		}
+
+		log.Fatal(autotls.RunWithManager(main, &m))
+	} else {
+		gin.SetMode(gin.ReleaseMode)
+		main.Run(":8080")
 	}
 
-	log.Fatal(autotls.RunWithManager(main, &m))
-	// main.Run(":8080")
 }
